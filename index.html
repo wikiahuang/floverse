@@ -87,16 +87,29 @@
       text-align: center;
     }
     .hero-badge {
-      display: inline-block;
-      font-size: 0.72rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6em;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
+      margin-bottom: 2rem;
+    }
+    .hero-badge .badge-conf {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.05rem;
       font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid var(--gold-light);
-      padding: 0.3em 1em;
-      border-radius: 20px;
-      margin-bottom: 1.6rem;
+      font-style: italic;
+      color: var(--rose);
+      letter-spacing: 0.04em;
+    }
+    .hero-badge .badge-sep {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+      flex-shrink: 0;
     }
     .hero h1 {
       font-family: 'EB Garamond', serif;
@@ -108,8 +121,8 @@
       letter-spacing: 0.01em;
     }
     .hero h1 em {
-      font-style: italic;
-      color: var(--rose);
+      font-style: normal;
+      color: var(--ink);
     }
     .hero-subtitle {
       font-size: 1rem;
@@ -465,7 +478,11 @@
 
 <!-- ── Hero ────────────────────────────────────────── -->
 <header class="hero">
-  <div class="hero-badge">CVPR 2026</div>
+  <div class="hero-badge">
+    <span class="badge-conf">CVPR 2026</span>
+    <span class="badge-sep"></span>
+    Computer Vision and Pattern Recognition
+  </div>
 
   <h1>FloVerse: Floor Plan-Guided<br><em>Multi-Modal Navigation</em></h1>
 
