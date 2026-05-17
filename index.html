@@ -3,57 +3,820 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FloVerse</title>
+  <title>FloVerse — Floor Plan Navigation Dataset</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream:    #f7f3ee;
+      --cream-2:  #f0ebe3;
+      --cream-3:  #e8e0d4;
+      --rose:     #7a5c5c;
+      --rose-light: #a07878;
+      --gold:     #c4a882;
+      --gold-light: #dfc9a8;
+      --ink:      #2e2424;
+      --ink-soft: #5a4848;
+      --ink-muted:#9e8a7a;
+      --white:    #fdfaf7;
+      --shadow:   0 2px 20px rgba(60,40,30,0.08);
+      --shadow-md:0 6px 40px rgba(60,40,30,0.12);
+      --radius:   10px;
+      --max-w:    960px;
     }
 
+    html { scroll-behavior: smooth; }
+
     body {
-      min-height: 100vh;
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── Navigation ───────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 243, 238, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--cream-3);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--rose);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--rose); }
+
+    /* ── Hero ─────────────────────────────────────── */
+    .hero {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 5rem 2rem 3.5rem;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-light);
+      padding: 0.3em 1em;
+      border-radius: 20px;
+      margin-bottom: 1.6rem;
+    }
+    .hero h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 500;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.01em;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--rose);
+    }
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      max-width: 640px;
+      margin: 0 auto 2.2rem;
+    }
+
+    /* Authors */
+    .authors {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      margin-bottom: 0.5rem;
+    }
+    .authors a {
+      color: var(--rose-light);
+      text-decoration: none;
+    }
+    .authors a:hover { text-decoration: underline; }
+    .affiliation {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      margin-bottom: 2rem;
+    }
+
+    /* CTA Buttons */
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45em;
+      padding: 0.55em 1.4em;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--rose);
+      color: #fff;
+    }
+    .btn-primary:hover { background: #6a4e4e; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(122,92,92,0.35); }
+    .btn-secondary {
+      background: var(--white);
+      color: var(--ink-soft);
+      border: 1px solid var(--cream-3);
+    }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--rose); transform: translateY(-1px); }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--white);
+    }
+    .btn-gold:hover { background: #b09570; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,168,130,0.4); }
+    .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .hero-divider {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin: 0 auto;
+    }
+
+    /* ── Section Shared ───────────────────────────── */
+    section { padding: 5rem 2rem; }
+    section:nth-child(even) { background: var(--cream-2); }
+
+    .section-inner { max-width: var(--max-w); margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.8rem;
+      line-height: 1.25;
+    }
+    .section-desc {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+
+    /* ── Demo Section ─────────────────────────────── */
+    #demo .demo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+    }
+    .demo-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .demo-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .demo-thumb {
+      aspect-ratio: 16/9;
+      background: var(--cream-3);
       display: flex;
       align-items: center;
       justify-content: center;
-      background: #f9f5f0;
-      font-family: 'Georgia', serif;
-      color: #3a2e2e;
+      position: relative;
+      overflow: hidden;
     }
+    .demo-thumb-placeholder {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--ink-muted);
+      font-size: 0.8rem;
+    }
+    .demo-thumb-placeholder svg { width: 36px; height: 36px; opacity: 0.5; }
+    .demo-play-btn {
+      position: absolute;
+      width: 48px; height: 48px;
+      background: rgba(122,92,92,0.85);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .demo-play-btn:hover { background: var(--rose); transform: scale(1.08); }
+    .demo-play-btn svg { width: 18px; height: 18px; fill: #fff; margin-left: 2px; }
+    .demo-card-body { padding: 1rem 1.25rem 1.25rem; }
+    .demo-card-title { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.3rem; }
+    .demo-card-desc { font-size: 0.8rem; color: var(--ink-muted); line-height: 1.6; }
 
-    .container {
-      text-align: center;
+    /* ── Dataset Section ──────────────────────────── */
+    #dataset .dataset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 1.5rem;
+    }
+    .dataset-card {
+      background: var(--white);
+      border-radius: var(--radius);
       padding: 2rem;
+      box-shadow: var(--shadow);
+      border-top: 3px solid var(--gold);
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
     }
-
-    .logo {
-      font-size: 3rem;
-      font-weight: normal;
+    .dataset-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--cream-2), var(--cream-3));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .dataset-icon svg { width: 22px; height: 22px; stroke: var(--rose); fill: none; stroke-width: 1.8; }
+    .dataset-num {
+      font-size: 0.7rem;
+      font-weight: 600;
       letter-spacing: 0.15em;
-      margin-bottom: 1.5rem;
-      color: #7a5c5c;
-    }
-
-    .divider {
-      width: 60px;
-      height: 1px;
-      background: #c4a882;
-      margin: 0 auto 1.5rem;
-    }
-
-    .tagline {
-      font-size: 1rem;
-      letter-spacing: 0.3em;
       text-transform: uppercase;
-      color: #9e8070;
+      color: var(--gold);
+    }
+    .dataset-name {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.35rem;
+      color: var(--ink);
+      font-weight: 500;
+      line-height: 1.3;
+    }
+    .dataset-desc {
+      font-size: 0.85rem;
+      color: var(--ink-soft);
+      line-height: 1.75;
+    }
+    .dataset-stats {
+      display: flex;
+      gap: 1.5rem;
+      padding: 1rem 0;
+      border-top: 1px solid var(--cream-3);
+      border-bottom: 1px solid var(--cream-3);
+    }
+    .stat-item { display: flex; flex-direction: column; gap: 0.15rem; }
+    .stat-num {
+      font-size: 1.3rem;
+      font-family: 'EB Garamond', serif;
+      color: var(--rose);
+      font-weight: 500;
+    }
+    .stat-label { font-size: 0.72rem; color: var(--ink-muted); letter-spacing: 0.05em; }
+    .dataset-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+
+    /* ── Data Visualization Section ───────────────── */
+    #data-vis .figure-wrap {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .figure-placeholder {
+      aspect-ratio: 16/7;
+      background: var(--cream-2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--cream-3);
+      color: var(--ink-muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+    .figure-caption {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+    }
+    .figure-caption strong { color: var(--ink-soft); }
+
+    /* ── Pipeline Section ─────────────────────────── */
+    #pipeline .pipeline-wrap {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    /* ── Results Section ──────────────────────────── */
+    #results .results-figures {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+    }
+    .result-figure {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    .result-figure .figure-placeholder { aspect-ratio: 4/3; margin: 0; border-radius: 0; border: none; }
+    .result-figure-caption {
+      padding: 0.85rem 1rem;
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--cream-3);
+    }
+    .result-figure-caption strong { color: var(--ink-soft); display: block; margin-bottom: 0.2rem; }
+
+    /* ── BibTeX Section ───────────────────────────── */
+    #citation {
+      background: var(--ink);
+      color: var(--cream-3);
+    }
+    #citation .section-label { color: var(--gold); }
+    #citation .section-title { color: var(--cream); }
+    #citation .section-desc { color: #9e8e80; }
+    .bibtex-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: #c8b8a8;
+      overflow-x: auto;
+      position: relative;
+    }
+    .bibtex-box .key { color: var(--gold-light); }
+    .bibtex-box .val { color: #d4c4b4; }
+    .copy-btn {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--cream-3);
+      padding: 0.3em 0.8em;
+      border-radius: 5px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.14); }
+
+    /* ── Footer ───────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #6e5e54;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Utilities ────────────────────────────────── */
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.2em 0.7em;
+      border-radius: 4px;
+      background: var(--cream-2);
+      color: var(--ink-soft);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      border: 1px solid var(--cream-3);
+    }
+    .tag-group { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      section { padding: 3.5rem 1.25rem; }
+      #dataset .dataset-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1 class="logo">FloVerse</h1>
-    <div class="divider"></div>
-    <p class="tagline">Coming Soon</p>
+
+<!-- ── Navigation ──────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">FloVerse</a>
+    <ul class="nav-links">
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#dataset">Dataset</a></li>
+      <li><a href="#data-vis">Data</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#citation">Cite</a></li>
+    </ul>
   </div>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────── -->
+<header class="hero">
+  <div class="hero-badge">ICRA 2026 &nbsp;·&nbsp; Dataset &amp; Benchmark</div>
+
+  <h1>FloVerse: A Large-Scale Dataset for<br><em>Floor Plan Navigation</em></h1>
+
+  <p class="hero-subtitle">
+    A comprehensive benchmark pairing annotated floor plan maps with expert
+    navigation trajectories, enabling embodied AI research in realistic indoor environments.
+  </p>
+
+  <p class="authors">
+    <a href="#">Author One</a><sup>1</sup>,&ensp;
+    <a href="#">Author Two</a><sup>1</sup>,&ensp;
+    <a href="#">Author Three</a><sup>2</sup>,&ensp;
+    <a href="#">Author Four</a><sup>1</sup>
+  </p>
+  <p class="affiliation">
+    <sup>1</sup>University / Lab Name &emsp; <sup>2</sup>Institution Name
+  </p>
+
+  <div class="btn-group">
+    <a href="#" class="btn btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Paper (arXiv)
+    </a>
+    <a href="#dataset" class="btn btn-gold">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      Dataset
+    </a>
+    <a href="#" class="btn btn-secondary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      Code
+    </a>
+    <a href="#demo" class="btn btn-secondary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+      Video
+    </a>
+  </div>
+
+  <div class="hero-divider"></div>
+</header>
+
+<!-- ── Demo Section ─────────────────────────────────── -->
+<section id="demo">
+  <div class="section-inner">
+    <p class="section-label">Qualitative Results</p>
+    <h2 class="section-title">System Demo</h2>
+    <p class="section-desc">
+      Representative navigation episodes from FloVerse, showing the agent traversing
+      diverse indoor environments guided by floor plan priors.
+    </p>
+
+    <div class="demo-grid">
+      <!-- Demo Card 1 -->
+      <div class="demo-card">
+        <div class="demo-thumb">
+          <div class="demo-thumb-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>Demo Video 1</span>
+          </div>
+          <div class="demo-play-btn">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+        <div class="demo-card-body">
+          <div class="demo-card-title">Long-Horizon Navigation</div>
+          <p class="demo-card-desc">Agent navigates across multiple rooms using floor plan topology as a global prior.</p>
+        </div>
+      </div>
+
+      <!-- Demo Card 2 -->
+      <div class="demo-card">
+        <div class="demo-thumb">
+          <div class="demo-thumb-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>Demo Video 2</span>
+          </div>
+          <div class="demo-play-btn">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+        <div class="demo-card-body">
+          <div class="demo-card-title">Object-Goal Navigation</div>
+          <p class="demo-card-desc">Target object localization with semantic floor plan grounding in unseen environments.</p>
+        </div>
+      </div>
+
+      <!-- Demo Card 3 -->
+      <div class="demo-card">
+        <div class="demo-thumb">
+          <div class="demo-thumb-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>Demo Video 3</span>
+          </div>
+          <div class="demo-play-btn">
+            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+        </div>
+        <div class="demo-card-body">
+          <div class="demo-card-title">Trajectory Prediction</div>
+          <p class="demo-card-desc">Comparing predicted trajectories against human expert demonstrations on complex layouts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Dataset Section ──────────────────────────────── -->
+<section id="dataset">
+  <div class="section-inner">
+    <p class="section-label">Data Release</p>
+    <h2 class="section-title">FloVerse Dataset</h2>
+    <p class="section-desc">
+      FloVerse consists of two complementary components: richly annotated floor plan maps
+      and paired expert navigation trajectories, together enabling comprehensive
+      training and evaluation of indoor navigation agents.
+    </p>
+
+    <div class="dataset-grid">
+
+      <!-- Card 1: Floor Plan Data -->
+      <div class="dataset-card">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <div class="dataset-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+          </div>
+          <div>
+            <div class="dataset-num">Part I</div>
+            <div class="dataset-name">Floor Plan Maps</div>
+          </div>
+        </div>
+
+        <p class="dataset-desc">
+          High-resolution floor plan images with semantic room-type annotations,
+          wall topology graphs, and scale-normalized coordinate systems.
+          Covers residential, commercial, and mixed-use layouts across diverse
+          architectural styles.
+        </p>
+
+        <div class="tag-group">
+          <span class="tag">Semantic Segmentation</span>
+          <span class="tag">Room Topology</span>
+          <span class="tag">Scale-Normalized</span>
+          <span class="tag">Multi-Resolution</span>
+        </div>
+
+        <div class="dataset-stats">
+          <div class="stat-item">
+            <span class="stat-num">10K+</span>
+            <span class="stat-label">Floor Plans</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">50+</span>
+            <span class="stat-label">Scene Types</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">8</span>
+            <span class="stat-label">Room Categories</span>
+          </div>
+        </div>
+
+        <div class="dataset-actions">
+          <a href="#" class="btn btn-gold">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download (HuggingFace)
+          </a>
+          <a href="#" class="btn btn-secondary">Data Card</a>
+        </div>
+      </div>
+
+      <!-- Card 2: Expert Trajectory Data -->
+      <div class="dataset-card">
+        <div style="display:flex; align-items:center; gap:1rem;">
+          <div class="dataset-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>
+          </div>
+          <div>
+            <div class="dataset-num">Part II</div>
+            <div class="dataset-name">Expert Trajectories</div>
+          </div>
+        </div>
+
+        <p class="dataset-desc">
+          Human expert navigation demonstrations recorded in simulation, aligned
+          to corresponding floor plan coordinates. Each trajectory includes
+          step-level action labels, egocentric observations, and goal annotations.
+        </p>
+
+        <div class="tag-group">
+          <span class="tag">Human Demonstration</span>
+          <span class="tag">Action-Labeled</span>
+          <span class="tag">Egocentric RGB</span>
+          <span class="tag">Goal-Conditioned</span>
+        </div>
+
+        <div class="dataset-stats">
+          <div class="stat-item">
+            <span class="stat-num">50K+</span>
+            <span class="stat-label">Episodes</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">2M+</span>
+            <span class="stat-label">Frames</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-num">95%</span>
+            <span class="stat-label">Success Rate</span>
+          </div>
+        </div>
+
+        <div class="dataset-actions">
+          <a href="#" class="btn btn-gold">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download (HuggingFace)
+          </a>
+          <a href="#" class="btn btn-secondary">Data Card</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Data Visualization Section ──────────────────── -->
+<section id="data-vis">
+  <div class="section-inner">
+    <p class="section-label">Dataset Analysis</p>
+    <h2 class="section-title">Data Construction &amp; Statistics</h2>
+    <p class="section-desc">
+      Overview of the data curation pipeline and key statistical properties
+      of the FloVerse dataset across scene types and trajectory distributions.
+    </p>
+
+    <div class="figure-wrap">
+      <div class="figure-placeholder">
+        [ Data construction pipeline figure ]
+      </div>
+      <p class="figure-caption">
+        <strong>Figure 1.</strong> FloVerse data construction pipeline. Floor plans are collected,
+        semantically annotated, and aligned with simulation environments. Expert trajectories
+        are then recorded by human operators and post-processed to remove noise.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pipeline Section ─────────────────────────────── -->
+<section id="pipeline">
+  <div class="section-inner">
+    <p class="section-label">Method</p>
+    <h2 class="section-title">Model Pipeline</h2>
+    <p class="section-desc">
+      Our approach encodes the floor plan as a structured prior and fuses it
+      with egocentric perception to generate spatially grounded navigation plans.
+    </p>
+
+    <div class="pipeline-wrap">
+      <div class="figure-placeholder" style="aspect-ratio:21/7; margin-bottom:1rem;">
+        [ Model pipeline figure ]
+      </div>
+      <p class="figure-caption">
+        <strong>Figure 2.</strong> Overview of the proposed architecture. A floor plan encoder
+        extracts topological and semantic features, which are cross-attended with the
+        visual observation stream to produce waypoint predictions and action distributions.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Results Section ──────────────────────────────── -->
+<section id="results">
+  <div class="section-inner">
+    <p class="section-label">Experiments</p>
+    <h2 class="section-title">Experimental Results</h2>
+    <p class="section-desc">
+      Quantitative and qualitative comparison against state-of-the-art baselines
+      on the FloVerse benchmark and standard embodied navigation tasks.
+    </p>
+
+    <div class="results-figures">
+      <div class="result-figure">
+        <div class="figure-placeholder">[ Result Figure 1 ]</div>
+        <div class="result-figure-caption">
+          <strong>SPL vs. Episode Length</strong>
+          Performance degrades more gracefully for our model on long-horizon tasks.
+        </div>
+      </div>
+      <div class="result-figure">
+        <div class="figure-placeholder">[ Result Figure 2 ]</div>
+        <div class="result-figure-caption">
+          <strong>Floor Plan Generalization</strong>
+          Zero-shot transfer to unseen building layouts using floor plan priors.
+        </div>
+      </div>
+      <div class="result-figure">
+        <div class="figure-placeholder">[ Result Figure 3 ]</div>
+        <div class="result-figure-caption">
+          <strong>Trajectory Quality</strong>
+          Comparison of predicted vs. expert trajectories across scene complexities.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Citation Section ─────────────────────────────── -->
+<section id="citation">
+  <div class="section-inner">
+    <p class="section-label">Reference</p>
+    <h2 class="section-title">Citation</h2>
+    <p class="section-desc">
+      If you use FloVerse in your research, please cite our paper.
+    </p>
+    <div class="bibtex-box">
+      <button class="copy-btn" onclick="copyBib()">Copy</button>
+<span class="key">@inproceedings</span>{floverse2026,<br>
+&nbsp;&nbsp;<span class="key">title</span>     = {<span class="val">FloVerse: A Large-Scale Dataset for Floor Plan Navigation</span>},<br>
+&nbsp;&nbsp;<span class="key">author</span>    = {<span class="val">Author One and Author Two and Author Three and Author Four</span>},<br>
+&nbsp;&nbsp;<span class="key">booktitle</span> = {<span class="val">Proceedings of ICRA</span>},<br>
+&nbsp;&nbsp;<span class="key">year</span>      = {<span class="val">2026</span>},<br>
+&nbsp;&nbsp;<span class="key">url</span>       = {<span class="val">https://arxiv.org/abs/XXXX.XXXXX</span>}<br>
+}
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────── -->
+<footer>
+  <p>
+    FloVerse &nbsp;·&nbsp; 2026 &nbsp;·&nbsp;
+    <a href="#">Paper</a> &nbsp;·&nbsp;
+    <a href="#">Dataset</a> &nbsp;·&nbsp;
+    <a href="#">Code</a> &nbsp;·&nbsp;
+    <a href="#">Contact</a>
+  </p>
+</footer>
+
+<script>
+  function copyBib() {
+    const raw = `@inproceedings{floverse2026,
+  title     = {FloVerse: A Large-Scale Dataset for Floor Plan Navigation},
+  author    = {Author One and Author Two and Author Three and Author Four},
+  booktitle = {Proceedings of ICRA},
+  year      = {2026},
+  url       = {https://arxiv.org/abs/XXXX.XXXXX}
+}`;
+    navigator.clipboard.writeText(raw).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+</script>
+
 </body>
 </html>
