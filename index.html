@@ -120,10 +120,7 @@
       margin-bottom: 0.6rem;
       letter-spacing: 0.01em;
     }
-    .hero h1 em {
-      font-style: normal;
-      color: var(--ink);
-    }
+    .hero h1 em { font-style: normal; color: var(--ink); }
     .hero-subtitle {
       font-size: 1rem;
       color: var(--ink-soft);
@@ -137,10 +134,7 @@
       color: var(--ink-soft);
       margin-bottom: 0.5rem;
     }
-    .authors a {
-      color: var(--rose-light);
-      text-decoration: none;
-    }
+    .authors a { color: var(--rose-light); text-decoration: none; }
     .authors a:hover { text-decoration: underline; }
     .affiliation {
       font-size: 0.8rem;
@@ -170,21 +164,11 @@
       cursor: pointer;
       border: none;
     }
-    .btn-primary {
-      background: var(--rose);
-      color: #fff;
-    }
+    .btn-primary { background: var(--rose); color: #fff; }
     .btn-primary:hover { background: #6a4e4e; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(122,92,92,0.35); }
-    .btn-secondary {
-      background: var(--white);
-      color: var(--ink-soft);
-      border: 1px solid var(--cream-3);
-    }
+    .btn-secondary { background: var(--white); color: var(--ink-soft); border: 1px solid var(--cream-3); }
     .btn-secondary:hover { border-color: var(--gold); color: var(--rose); transform: translateY(-1px); }
-    .btn-gold {
-      background: var(--gold);
-      color: var(--white);
-    }
+    .btn-gold { background: var(--gold); color: var(--white); }
     .btn-gold:hover { background: #b09570; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,168,130,0.4); }
     .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
@@ -198,7 +182,6 @@
     /* ── Section Shared ───────────────────────────── */
     section { padding: 5rem 2rem; }
     section:nth-child(even) { background: var(--cream-2); }
-
     .section-inner { max-width: var(--max-w); margin: 0 auto; }
 
     .section-label {
@@ -225,120 +208,158 @@
       line-height: 1.75;
     }
 
-    /* ── Demo Section ─────────────────────────────── */
-    #demo .demo-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
+    /* ── Abstract ─────────────────────────────────── */
+    .abstract-block {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: left;
     }
-    .demo-card {
-      background: var(--white);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-      transition: box-shadow 0.25s, transform 0.25s;
+    .abstract-text {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.95;
+      text-align: justify;
     }
-    .demo-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
-    .demo-thumb {
-      aspect-ratio: 16/9;
-      background: var(--cream-3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .demo-thumb-placeholder {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      color: var(--ink-muted);
-      font-size: 0.8rem;
-    }
-    .demo-thumb-placeholder svg { width: 36px; height: 36px; opacity: 0.5; }
-    .demo-play-btn {
-      position: absolute;
-      width: 48px; height: 48px;
-      background: rgba(122,92,92,0.85);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-    .demo-play-btn:hover { background: var(--rose); transform: scale(1.08); }
-    .demo-play-btn svg { width: 18px; height: 18px; fill: #fff; margin-left: 2px; }
-    .demo-card-body { padding: 1rem 1.25rem 1.25rem; }
-    .demo-card-title { font-weight: 600; font-size: 0.9rem; color: var(--ink); margin-bottom: 0.3rem; }
-    .demo-card-desc { font-size: 0.8rem; color: var(--ink-muted); line-height: 1.6; }
 
-    /* ── Dataset Section ──────────────────────────── */
-    #dataset .dataset-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-      gap: 1.5rem;
-    }
-    .dataset-card {
+    /* ── Teaser ───────────────────────────────────── */
+    #teaser { padding: 0 2rem 4rem; }
+    .teaser-figure {
+      max-width: var(--max-w);
+      margin: 0 auto;
       background: var(--white);
       border-radius: var(--radius);
-      padding: 2rem;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .teaser-figure img {
+      width: 100%;
+      display: block;
+    }
+    /* PDF teaser option: use <object> or <iframe> instead of <img>
+       <object data="assets/teaser.pdf" type="application/pdf"
+               class="teaser-pdf" style="height:520px;"></object>
+       Note: PDF embedding is not supported on iOS Safari or some mobile browsers.
+       Converting teaser to PNG is recommended for better compatibility. */
+    .teaser-caption {
+      padding: 1rem 1.5rem 1.25rem;
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      border-top: 1px solid var(--cream-3);
+    }
+    .teaser-caption strong { color: var(--ink-soft); }
+
+    /* ── Dataset ──────────────────────────────────── */
+    .dataset-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+      margin-bottom: 2.5rem;
+    }
+    .dataset-figure {
+      background: var(--white);
+      border-radius: var(--radius);
+      overflow: hidden;
       box-shadow: var(--shadow);
-      border-top: 3px solid var(--gold);
+      position: sticky;
+      top: 72px;
+    }
+    .dataset-figure img {
+      width: 100%;
+      display: block;
+    }
+    .fig-caption {
+      padding: 0.75rem 1rem;
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--cream-3);
+    }
+    .fig-caption strong { color: var(--ink-soft); }
+    .dataset-texts {
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
+      gap: 1.75rem;
     }
-    .dataset-icon {
-      width: 44px; height: 44px;
-      background: linear-gradient(135deg, var(--cream-2), var(--cream-3));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
+    .dataset-text-block h4 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
     }
-    .dataset-icon svg { width: 22px; height: 22px; stroke: var(--rose); fill: none; stroke-width: 1.8; }
-    .dataset-num {
-      font-size: 0.7rem;
+    .dataset-text-block h4 .tag-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
       font-weight: 600;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--gold);
+      background: var(--cream-2);
+      border: 1px solid var(--cream-3);
+      padding: 0.15em 0.55em;
+      border-radius: 4px;
     }
-    .dataset-name {
-      font-family: 'EB Garamond', serif;
-      font-size: 1.35rem;
-      color: var(--ink);
-      font-weight: 500;
-      line-height: 1.3;
-    }
-    .dataset-desc {
-      font-size: 0.85rem;
+    .dataset-text-block p {
+      font-size: 0.88rem;
       color: var(--ink-soft);
-      line-height: 1.75;
+      line-height: 1.85;
     }
-    .dataset-stats {
-      display: flex;
-      gap: 1.5rem;
-      padding: 1rem 0;
-      border-top: 1px solid var(--cream-3);
-      border-bottom: 1px solid var(--cream-3);
-    }
-    .stat-item { display: flex; flex-direction: column; gap: 0.15rem; }
-    .stat-num {
-      font-size: 1.3rem;
-      font-family: 'EB Garamond', serif;
-      color: var(--rose);
-      font-weight: 500;
-    }
-    .stat-label { font-size: 0.72rem; color: var(--ink-muted); letter-spacing: 0.05em; }
-    .dataset-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; }
 
-    /* ── Data Visualization Section ───────────────── */
-    #data-vis .figure-wrap {
+    /* ── Data Table ───────────────────────────────── */
+    .table-wrap {
       background: var(--white);
       border-radius: var(--radius);
-      padding: 1.5rem;
       box-shadow: var(--shadow);
-      text-align: center;
+      overflow: hidden;
+      margin-bottom: 2rem;
     }
+    .table-caption {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      padding: 0.9rem 1.4rem 0.7rem;
+      border-bottom: 1px solid var(--cream-3);
+    }
+    .table-caption strong { color: var(--ink); }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+    }
+    table.data-table th {
+      background: var(--cream-2);
+      color: var(--ink-soft);
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.4rem;
+      text-align: left;
+      border-bottom: 2px solid var(--cream-3);
+    }
+    table.data-table td {
+      padding: 0.6rem 1.4rem;
+      color: var(--ink-soft);
+      border-bottom: 1px solid var(--cream-3);
+    }
+    table.data-table tr:last-child td { border-bottom: none; }
+    table.data-table tr:hover td { background: var(--cream-2); }
+    table.data-table td.val { font-family: 'EB Garamond', serif; font-size: 1.05rem; color: var(--rose); }
+    table.data-table td.row-head { font-weight: 500; color: var(--ink); }
+
+    /* Download links below table */
+    .download-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.75rem;
+    }
+
+    /* ── Figure placeholder (generic) ────────────── */
     .figure-placeholder {
       aspect-ratio: 16/7;
       background: var(--cream-2);
@@ -352,44 +373,134 @@
       letter-spacing: 0.05em;
       margin-bottom: 1rem;
     }
-    .figure-caption {
-      font-size: 0.8rem;
-      color: var(--ink-muted);
-      line-height: 1.6;
-    }
-    .figure-caption strong { color: var(--ink-soft); }
 
-    /* ── Pipeline Section ─────────────────────────── */
-    #pipeline .pipeline-wrap {
+    /* ── Pipeline ─────────────────────────────────── */
+    .pipeline-wrap {
       background: var(--white);
       border-radius: var(--radius);
       padding: 1.5rem;
       box-shadow: var(--shadow);
     }
+    .pipeline-wrap img {
+      width: 100%;
+      display: block;
+      border-radius: 6px;
+    }
 
-    /* ── Results Section ──────────────────────────── */
-    #results .results-figures {
+    /* ── Results ──────────────────────────────────── */
+    .results-text {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.85;
+      margin-bottom: 2rem;
+      max-width: 760px;
+    }
+    .results-tables { display: flex; flex-direction: column; gap: 2.5rem; }
+
+    .table-wrap-results {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .table-caption-top {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      padding: 0.9rem 1.4rem 0.7rem;
+      border-bottom: 1px solid var(--cream-3);
+    }
+    .table-caption-top strong { color: var(--ink); }
+    table.results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    table.results-table thead th {
+      background: var(--ink);
+      color: var(--cream-2);
+      font-weight: 500;
+      font-size: 0.73rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.2rem;
+      text-align: center;
+    }
+    table.results-table thead th:first-child { text-align: left; }
+    table.results-table tbody td {
+      padding: 0.6rem 1.2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--cream-3);
+      color: var(--ink-soft);
+    }
+    table.results-table tbody td:first-child { text-align: left; color: var(--ink); }
+    table.results-table tbody tr:last-child td { border-bottom: none; }
+    table.results-table tbody tr:hover td { background: var(--cream-2); }
+    table.results-table tbody tr.ours td {
+      font-weight: 600;
+      color: var(--rose);
+      background: rgba(196,168,130,0.08);
+    }
+    table.results-table tbody tr.ours td:first-child { color: var(--rose); }
+    .best { font-weight: 700; text-decoration: underline; }
+    table.results-table tfoot td {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      padding: 0.55rem 1.2rem;
+      border-top: 1px solid var(--cream-3);
+      text-align: left;
+    }
+
+    /* ── Videos ───────────────────────────────────── */
+    .video-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 1.25rem;
     }
-    .result-figure {
+    .video-card {
       background: var(--white);
       border-radius: var(--radius);
       overflow: hidden;
       box-shadow: var(--shadow);
+      transition: box-shadow 0.25s, transform 0.25s;
     }
-    .result-figure .figure-placeholder { aspect-ratio: 4/3; margin: 0; border-radius: 0; border: none; }
-    .result-figure-caption {
-      padding: 0.85rem 1rem;
-      font-size: 0.78rem;
+    .video-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+    .video-card video {
+      width: 100%;
+      display: block;
+      aspect-ratio: 16/9;
+      background: #111;
+    }
+    /* If embedding YouTube: use <iframe> inside .video-embed instead */
+    .video-embed {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: #111;
+    }
+    .video-embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    /* Placeholder for videos not yet uploaded */
+    .video-placeholder {
+      aspect-ratio: 16/9;
+      background: var(--cream-3);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
       color: var(--ink-muted);
-      line-height: 1.6;
-      border-top: 1px solid var(--cream-3);
+      font-size: 0.8rem;
     }
-    .result-figure-caption strong { color: var(--ink-soft); display: block; margin-bottom: 0.2rem; }
+    .video-placeholder svg { width: 36px; height: 36px; opacity: 0.45; }
+    .video-card-body { padding: 0.85rem 1.1rem 1rem; }
+    .video-card-title { font-weight: 600; font-size: 0.88rem; color: var(--ink); margin-bottom: 0.25rem; }
+    .video-card-desc { font-size: 0.78rem; color: var(--ink-muted); line-height: 1.6; }
 
-    /* ── BibTeX Section ───────────────────────────── */
+    /* ── Citation ─────────────────────────────────── */
     #citation {
       background: var(--ink);
       color: var(--cream-3);
@@ -452,10 +563,11 @@
     }
     .tag-group { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
 
-    @media (max-width: 640px) {
+    @media (max-width: 720px) {
       .nav-links { display: none; }
       section { padding: 3.5rem 1.25rem; }
-      #dataset .dataset-grid { grid-template-columns: 1fr; }
+      .dataset-layout { grid-template-columns: 1fr; }
+      .dataset-figure { position: static; }
     }
   </style>
 </head>
@@ -466,11 +578,11 @@
   <div class="nav-inner">
     <a href="#" class="nav-brand">FloVerse</a>
     <ul class="nav-links">
-      <li><a href="#demo">Demo</a></li>
+      <li><a href="#abstract">Abstract</a></li>
       <li><a href="#dataset">Dataset</a></li>
-      <li><a href="#data-vis">Data</a></li>
       <li><a href="#pipeline">Pipeline</a></li>
       <li><a href="#results">Results</a></li>
+      <li><a href="#videos">Videos</a></li>
       <li><a href="#citation">Cite</a></li>
     </ul>
   </div>
@@ -516,7 +628,7 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
       Code
     </a>
-    <a href="#demo" class="btn btn-secondary">
+    <a href="#videos" class="btn btn-secondary">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
       Video
     </a>
@@ -525,206 +637,193 @@
   <div class="hero-divider"></div>
 </header>
 
-<!-- ── Demo Section ─────────────────────────────────── -->
-<section id="demo">
+<!-- ── Abstract ─────────────────────────────────────── -->
+<section id="abstract">
   <div class="section-inner">
-    <p class="section-label">Qualitative Results</p>
-    <h2 class="section-title">System Demo</h2>
-    <p class="section-desc">
-      Representative navigation episodes from FloVerse, showing the agent traversing
-      diverse indoor environments guided by floor plan priors.
-    </p>
-
-    <div class="demo-grid">
-      <!-- Demo Card 1 -->
-      <div class="demo-card">
-        <div class="demo-thumb">
-          <div class="demo-thumb-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            <span>Demo Video 1</span>
-          </div>
-          <div class="demo-play-btn">
-            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-        </div>
-        <div class="demo-card-body">
-          <div class="demo-card-title">Long-Horizon Navigation</div>
-          <p class="demo-card-desc">Agent navigates across multiple rooms using floor plan topology as a global prior.</p>
-        </div>
-      </div>
-
-      <!-- Demo Card 2 -->
-      <div class="demo-card">
-        <div class="demo-thumb">
-          <div class="demo-thumb-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            <span>Demo Video 2</span>
-          </div>
-          <div class="demo-play-btn">
-            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-        </div>
-        <div class="demo-card-body">
-          <div class="demo-card-title">Object-Goal Navigation</div>
-          <p class="demo-card-desc">Target object localization with semantic floor plan grounding in unseen environments.</p>
-        </div>
-      </div>
-
-      <!-- Demo Card 3 -->
-      <div class="demo-card">
-        <div class="demo-thumb">
-          <div class="demo-thumb-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-            <span>Demo Video 3</span>
-          </div>
-          <div class="demo-play-btn">
-            <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </div>
-        </div>
-        <div class="demo-card-body">
-          <div class="demo-card-title">Trajectory Prediction</div>
-          <p class="demo-card-desc">Comparing predicted trajectories against human expert demonstrations on complex layouts.</p>
-        </div>
-      </div>
+    <div class="abstract-block">
+      <p class="section-label">Abstract</p>
+      <p class="abstract-text">
+        <!-- Replace with your actual abstract text -->
+        Indoor navigation in real-world environments requires agents to reason
+        about both local observations and global spatial structure. While prior
+        work has explored egocentric perception and map-based planning separately,
+        exploiting <em>floor plan priors</em> as a structured, globally-consistent
+        representation remains underexplored. We introduce <strong>FloVerse</strong>,
+        a framework that tightly couples floor plan understanding with multi-modal
+        egocentric perception for robust indoor navigation. To support this research,
+        we construct the FloVerse dataset comprising over 10,000 annotated floor
+        plans and 50,000 paired expert navigation trajectories spanning diverse
+        architectural styles. Our model encodes the floor plan as a semantic
+        topological graph and cross-attends it with the visual observation stream,
+        enabling spatially grounded waypoint prediction and action generation.
+        Extensive experiments on multiple benchmarks demonstrate that FloVerse
+        significantly outperforms state-of-the-art baselines on both seen and
+        unseen environments, especially under long-horizon and cross-floor-plan
+        generalization settings.
+      </p>
     </div>
   </div>
 </section>
+
+<!-- ── Teaser Figure ─────────────────────────────────── -->
+<!--
+  OPTION A (recommended): Convert your PDF teaser to PNG first, e.g.:
+    pdftoppm -r 200 teaser.pdf assets/teaser && mv assets/teaser-1.ppm assets/teaser.png
+  Then use <img src="assets/teaser.png" ...>.
+
+  OPTION B (PDF embed): Replace the <img> below with:
+    <object data="assets/teaser.pdf" type="application/pdf"
+            style="width:100%; height:560px; display:block;"></object>
+  Warning: PDF inline display is NOT supported on iOS Safari or many mobile browsers.
+-->
+<div id="teaser">
+  <div class="teaser-figure">
+    <!-- Replace src with your actual teaser image or use the PDF object above -->
+    <img src="assets/teaser.png" alt="FloVerse teaser figure"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+    <!-- Placeholder shown when image is missing -->
+    <div class="figure-placeholder" style="aspect-ratio:21/8; margin:0; border-radius:0; border:none;">
+      [ Teaser Figure ]
+    </div>
+    <p class="teaser-caption">
+      <strong>Figure 1.</strong> Overview of FloVerse. Given a floor plan of the target
+      environment, our agent grounds its egocentric observations onto the structural
+      prior and generates spatially coherent navigation plans across diverse indoor
+      layouts — from residential apartments to commercial spaces.
+    </p>
+  </div>
+</div>
 
 <!-- ── Dataset Section ──────────────────────────────── -->
 <section id="dataset">
   <div class="section-inner">
-    <p class="section-label">Data Release</p>
+    <p class="section-label">Dataset</p>
     <h2 class="section-title">FloVerse Dataset</h2>
-    <p class="section-desc">
-      FloVerse consists of two complementary components: richly annotated floor plan maps
-      and paired expert navigation trajectories, together enabling comprehensive
-      training and evaluation of indoor navigation agents.
-    </p>
 
-    <div class="dataset-grid">
+    <!-- Two-column: figure on left, two text blocks on right -->
+    <div class="dataset-layout">
 
-      <!-- Card 1: Floor Plan Data -->
-      <div class="dataset-card">
-        <div style="display:flex; align-items:center; gap:1rem;">
-          <div class="dataset-icon">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-          </div>
-          <div>
-            <div class="dataset-num">Part I</div>
-            <div class="dataset-name">Floor Plan Maps</div>
-          </div>
+      <div class="dataset-figure">
+        <!-- Replace src with your dataset figure -->
+        <img src="assets/dataset_fig.png" alt="Dataset overview figure"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="figure-placeholder" style="aspect-ratio:3/4; margin:0; border-radius:0; border:none;">
+          [ Dataset Figure ]
         </div>
-
-        <p class="dataset-desc">
-          High-resolution floor plan images with semantic room-type annotations,
-          wall topology graphs, and scale-normalized coordinate systems.
-          Covers residential, commercial, and mixed-use layouts across diverse
-          architectural styles.
+        <p class="fig-caption">
+          <strong>Figure 2.</strong> FloVerse data collection and construction pipeline.
+          <!-- Replace with your actual figure caption -->
         </p>
-
-        <div class="tag-group">
-          <span class="tag">Semantic Segmentation</span>
-          <span class="tag">Room Topology</span>
-          <span class="tag">Scale-Normalized</span>
-          <span class="tag">Multi-Resolution</span>
-        </div>
-
-        <div class="dataset-stats">
-          <div class="stat-item">
-            <span class="stat-num">10K+</span>
-            <span class="stat-label">Floor Plans</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-num">50+</span>
-            <span class="stat-label">Scene Types</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-num">8</span>
-            <span class="stat-label">Room Categories</span>
-          </div>
-        </div>
-
-        <div class="dataset-actions">
-          <a href="https://huggingface.co/datasets/weiqi124/FloVerse-FloorPlan" target="_blank" class="btn btn-gold">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download (HuggingFace)
-          </a>
-          <a href="https://huggingface.co/datasets/weiqi124/FloVerse-FloorPlan" target="_blank" class="btn btn-secondary">Data Card</a>
-        </div>
       </div>
 
-      <!-- Card 2: Expert Trajectory Data -->
-      <div class="dataset-card">
-        <div style="display:flex; align-items:center; gap:1rem;">
-          <div class="dataset-icon">
-            <svg viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/><circle cx="8" cy="6" r="2"/><circle cx="16" cy="12" r="2"/><circle cx="10" cy="18" r="2"/></svg>
-          </div>
-          <div>
-            <div class="dataset-num">Part II</div>
-            <div class="dataset-name">Expert Trajectories</div>
-          </div>
+      <div class="dataset-texts">
+
+        <div class="dataset-text-block">
+          <h4>
+            <span class="tag-num">Part I</span>
+            Floor Plan Collection
+          </h4>
+          <p>
+            <!-- Replace with your actual text about how floor plans are collected -->
+            Floor plans are sourced from publicly available architectural databases
+            and real-estate listing platforms, covering residential apartments,
+            office buildings, and mixed-use spaces across diverse geographic regions.
+            Each floor plan is processed through a standardized pipeline that performs
+            scale normalization, semantic room-type annotation (bedroom, kitchen,
+            corridor, etc.), and wall topology extraction. We retain only plans that
+            meet minimum area and room-count thresholds, resulting in a final corpus
+            of over 10,000 high-quality floor plan images with rich structural
+            annotations ready for use as navigation priors.
+          </p>
         </div>
 
-        <p class="dataset-desc">
-          Human expert navigation demonstrations recorded in simulation, aligned
-          to corresponding floor plan coordinates. Each trajectory includes
-          step-level action labels, egocentric observations, and goal annotations.
-        </p>
-
-        <div class="tag-group">
-          <span class="tag">Human Demonstration</span>
-          <span class="tag">Action-Labeled</span>
-          <span class="tag">Egocentric RGB</span>
-          <span class="tag">Goal-Conditioned</span>
+        <div class="dataset-text-block">
+          <h4>
+            <span class="tag-num">Part II</span>
+            Training Data Generation
+          </h4>
+          <p>
+            <!-- Replace with your actual text about how training data is generated -->
+            We reconstruct a subset of floor plans as navigable 3D simulation
+            environments using a procedural scene synthesis pipeline. Human
+            operators then perform goal-directed navigation demonstrations within
+            these environments, producing step-level action annotations,
+            egocentric RGB-D observations, and floor-plan-aligned trajectory
+            coordinates. Post-processing removes noisy segments and ensures
+            trajectory-to-floor-plan alignment accuracy. The resulting training
+            set contains over 50,000 expert episodes covering a wide range of
+            start-goal configurations and environment complexities.
+          </p>
         </div>
 
-        <div class="dataset-stats">
-          <div class="stat-item">
-            <span class="stat-num">50K+</span>
-            <span class="stat-label">Episodes</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-num">2M+</span>
-            <span class="stat-label">Frames</span>
-          </div>
-          <div class="stat-item">
-            <span class="stat-num">95%</span>
-            <span class="stat-label">Success Rate</span>
-          </div>
-        </div>
-
-        <div class="dataset-actions">
-          <a href="#" class="btn btn-gold">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download (HuggingFace)
-          </a>
-          <a href="#" class="btn btn-secondary">Data Card</a>
-        </div>
       </div>
-
     </div>
-  </div>
-</section>
 
-<!-- ── Data Visualization Section ──────────────────── -->
-<section id="data-vis">
-  <div class="section-inner">
-    <p class="section-label">Dataset Analysis</p>
-    <h2 class="section-title">Data Construction &amp; Statistics</h2>
-    <p class="section-desc">
-      Overview of the data curation pipeline and key statistical properties
-      of the FloVerse dataset across scene types and trajectory distributions.
-    </p>
-
-    <div class="figure-wrap">
-      <div class="figure-placeholder">
-        [ Data construction pipeline figure ]
+    <!-- Dataset statistics table -->
+    <div class="table-wrap">
+      <div class="table-caption">
+        <strong>Table 1.</strong> FloVerse dataset statistics across splits.
+        <!-- Replace with your actual table caption -->
       </div>
-      <p class="figure-caption">
-        <strong>Figure 1.</strong> FloVerse data construction pipeline. Floor plans are collected,
-        semantically annotated, and aligned with simulation environments. Expert trajectories
-        are then recorded by human operators and post-processed to remove noise.
-      </p>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Split</th>
+            <th>Floor Plans</th>
+            <th>Episodes</th>
+            <th>Avg. Steps</th>
+            <th>Scene Types</th>
+            <th>Avg. Rooms</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-head">Train</td>
+            <td class="val">8,200</td>
+            <td class="val">42,000</td>
+            <td class="val">68.4</td>
+            <td class="val">48</td>
+            <td class="val">5.2</td>
+          </tr>
+          <tr>
+            <td class="row-head">Validation</td>
+            <td class="val">1,000</td>
+            <td class="val">5,000</td>
+            <td class="val">71.1</td>
+            <td class="val">42</td>
+            <td class="val">5.4</td>
+          </tr>
+          <tr>
+            <td class="row-head">Test (Seen)</td>
+            <td class="val">500</td>
+            <td class="val">2,000</td>
+            <td class="val">69.8</td>
+            <td class="val">38</td>
+            <td class="val">5.1</td>
+          </tr>
+          <tr>
+            <td class="row-head">Test (Unseen)</td>
+            <td class="val">300</td>
+            <td class="val">1,000</td>
+            <td class="val">74.6</td>
+            <td class="val">22</td>
+            <td class="val">5.8</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Download links -->
+    <div class="download-row">
+      <a href="https://huggingface.co/datasets/weiqi124/FloVerse-FloorPlan" target="_blank" class="btn btn-gold">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Floor Plans (HuggingFace)
+      </a>
+      <a href="#" class="btn btn-gold">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Trajectories (HuggingFace)
+      </a>
+      <a href="#" class="btn btn-secondary">Data Card</a>
     </div>
   </div>
 </section>
@@ -740,13 +839,17 @@
     </p>
 
     <div class="pipeline-wrap">
-      <div class="figure-placeholder" style="aspect-ratio:21/7; margin-bottom:1rem;">
-        [ Model pipeline figure ]
+      <!-- Replace src with your pipeline figure -->
+      <img src="assets/pipeline.png" alt="Model pipeline"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="figure-placeholder" style="aspect-ratio:21/7; margin-bottom:1rem; border-radius:6px;">
+        [ Model Pipeline Figure ]
       </div>
-      <p class="figure-caption">
-        <strong>Figure 2.</strong> Overview of the proposed architecture. A floor plan encoder
+      <p class="fig-caption" style="border-top:none; padding:0.25rem 0 0;">
+        <strong>Figure 3.</strong> Overview of the proposed architecture. A floor plan encoder
         extracts topological and semantic features, which are cross-attended with the
         visual observation stream to produce waypoint predictions and action distributions.
+        <!-- Replace with your actual pipeline caption -->
       </p>
     </div>
   </div>
@@ -757,33 +860,180 @@
   <div class="section-inner">
     <p class="section-label">Experiments</p>
     <h2 class="section-title">Experimental Results</h2>
-    <p class="section-desc">
-      Quantitative and qualitative comparison against state-of-the-art baselines
-      on the FloVerse benchmark and standard embodied navigation tasks.
+
+    <p class="results-text">
+      <!-- Replace with your actual results intro text -->
+      We evaluate FloVerse against state-of-the-art baselines on the FloVerse
+      benchmark and on standard embodied navigation tasks. All methods use the
+      same observation modalities. <em>Seen</em> and <em>Unseen</em> splits test
+      in-distribution performance and zero-shot floor plan generalization,
+      respectively. Our model consistently outperforms baselines across all metrics,
+      with particularly large gains on long-horizon tasks (&gt;60 steps) and in
+      unseen environments where floor plan priors provide the strongest signal.
     </p>
 
-    <div class="results-figures">
-      <div class="result-figure">
-        <div class="figure-placeholder">[ Result Figure 1 ]</div>
-        <div class="result-figure-caption">
-          <strong>SPL vs. Episode Length</strong>
-          Performance degrades more gracefully for our model on long-horizon tasks.
+    <div class="results-tables">
+
+      <!-- Table 1: Main comparison -->
+      <div class="table-wrap-results">
+        <div class="table-caption-top">
+          <strong>Table 2.</strong> Main results on the FloVerse benchmark (Seen split).
+          SR: Success Rate. SPL: Success weighted by Path Length. NE: Navigation Error (m). Best results in bold.
+          <!-- Replace with your actual caption -->
+        </div>
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>SR ↑</th>
+              <th>SPL ↑</th>
+              <th>NE ↓</th>
+              <th>SR ↑</th>
+              <th>SPL ↑</th>
+              <th>NE ↓</th>
+            </tr>
+            <tr style="background: rgba(255,255,255,0.05);">
+              <th></th>
+              <th colspan="3" style="font-size:0.65rem; color:var(--gold-light); letter-spacing:0.1em;">Short (&lt;40 steps)</th>
+              <th colspan="3" style="font-size:0.65rem; color:var(--gold-light); letter-spacing:0.1em;">Long (&gt;60 steps)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Baseline A</td>
+              <td>62.4</td><td>51.3</td><td>3.21</td>
+              <td>38.7</td><td>29.6</td><td>5.84</td>
+            </tr>
+            <tr>
+              <td>Baseline B</td>
+              <td>66.1</td><td>54.8</td><td>2.97</td>
+              <td>41.2</td><td>32.1</td><td>5.41</td>
+            </tr>
+            <tr>
+              <td>Baseline C</td>
+              <td>70.5</td><td>58.2</td><td>2.63</td>
+              <td>45.8</td><td>36.4</td><td>4.92</td>
+            </tr>
+            <tr class="ours">
+              <td>FloVerse (Ours)</td>
+              <td class="best">78.3</td><td class="best">65.7</td><td class="best">2.01</td>
+              <td class="best">58.4</td><td class="best">47.2</td><td class="best">3.74</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr><td colspan="7">↑ Higher is better. ↓ Lower is better.</td></tr>
+          </tfoot>
+        </table>
+      </div>
+
+      <!-- Text between tables -->
+      <p class="results-text">
+        <!-- Replace with text between tables (e.g., ablation description) -->
+        Table 3 presents ablation results on the Unseen split, validating the
+        contribution of each component. Removing the floor plan encoder causes
+        the largest performance drop, confirming that global spatial priors are
+        essential for cross-environment generalization.
+      </p>
+
+      <!-- Table 2: Ablation / Unseen -->
+      <div class="table-wrap-results">
+        <div class="table-caption-top">
+          <strong>Table 3.</strong> Ablation study on the Unseen split.
+          <!-- Replace with your actual caption -->
+        </div>
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th>Variant</th>
+              <th>Floor Plan Enc.</th>
+              <th>Cross-Attn.</th>
+              <th>SR ↑</th>
+              <th>SPL ↑</th>
+              <th>NE ↓</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>w/o Floor Plan</td>
+              <td>✗</td><td>✗</td>
+              <td>34.2</td><td>25.6</td><td>6.47</td>
+            </tr>
+            <tr>
+              <td>w/o Cross-Attn.</td>
+              <td>✓</td><td>✗</td>
+              <td>41.8</td><td>33.1</td><td>5.32</td>
+            </tr>
+            <tr>
+              <td>Concat. Fusion</td>
+              <td>✓</td><td>–</td>
+              <td>45.3</td><td>36.8</td><td>4.91</td>
+            </tr>
+            <tr class="ours">
+              <td>FloVerse (Full)</td>
+              <td>✓</td><td>✓</td>
+              <td class="best">52.1</td><td class="best">43.4</td><td class="best">4.12</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Videos Section ───────────────────────────────── -->
+<section id="videos">
+  <div class="section-inner">
+    <p class="section-label">Qualitative Results</p>
+    <h2 class="section-title">Demo Videos</h2>
+    <p class="section-desc">
+      Representative navigation episodes from FloVerse, showing the agent
+      traversing diverse indoor environments guided by floor plan priors.
+    </p>
+
+    <div class="video-grid">
+
+      <!-- Video 1: replace src or use <iframe> for YouTube -->
+      <div class="video-card">
+        <video controls preload="none" poster="assets/video1_thumb.png">
+          <source src="assets/video1.mp4" type="video/mp4">
+          <!-- Fallback placeholder -->
+        </video>
+        <!-- To embed YouTube instead:
+        <div class="video-embed">
+          <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen></iframe>
+        </div>
+        -->
+        <div class="video-card-body">
+          <div class="video-card-title">Long-Horizon Navigation</div>
+          <p class="video-card-desc">Agent navigates across multiple rooms using floor plan topology as a global prior.</p>
         </div>
       </div>
-      <div class="result-figure">
-        <div class="figure-placeholder">[ Result Figure 2 ]</div>
-        <div class="result-figure-caption">
-          <strong>Floor Plan Generalization</strong>
-          Zero-shot transfer to unseen building layouts using floor plan priors.
+
+      <!-- Video 2 -->
+      <div class="video-card">
+        <video controls preload="none" poster="assets/video2_thumb.png">
+          <source src="assets/video2.mp4" type="video/mp4">
+        </video>
+        <div class="video-card-body">
+          <div class="video-card-title">Unseen Floor Plan Generalization</div>
+          <p class="video-card-desc">Zero-shot transfer to a floor plan not seen during training.</p>
         </div>
       </div>
-      <div class="result-figure">
-        <div class="figure-placeholder">[ Result Figure 3 ]</div>
-        <div class="result-figure-caption">
-          <strong>Trajectory Quality</strong>
-          Comparison of predicted vs. expert trajectories across scene complexities.
+
+      <!-- Video 3 -->
+      <div class="video-card">
+        <video controls preload="none" poster="assets/video3_thumb.png">
+          <source src="assets/video3.mp4" type="video/mp4">
+        </video>
+        <div class="video-card-body">
+          <div class="video-card-title">Trajectory Comparison</div>
+          <p class="video-card-desc">Side-by-side comparison of FloVerse vs. baseline on a complex multi-room layout.</p>
         </div>
       </div>
+
     </div>
   </div>
 </section>
