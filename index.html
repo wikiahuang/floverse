@@ -742,19 +742,27 @@
         <div class="dataset-text-block">
           <h4>
             <span class="tag-num">Part II</span>
-            Training Data Generation
+            Expert Trajectory Collection
           </h4>
           <p>
-            <!-- Replace with your actual text about how training data is generated -->
-            We reconstruct a subset of floor plans as navigable 3D simulation
-            environments using a procedural scene synthesis pipeline. Human
-            operators then perform goal-directed navigation demonstrations within
-            these environments, producing step-level action annotations,
-            egocentric RGB-D observations, and floor-plan-aligned trajectory
-            coordinates. Post-processing removes noisy segments and ensures
-            trajectory-to-floor-plan alignment accuracy. The resulting training
-            set contains over 50,000 expert episodes covering a wide range of
-            start-goal configurations and environment complexities.
+            We build upon HM3D-OVON (379 categories, 181 scenes), cleaning
+            viewpoints outside navigable regions to yield 304 categories across
+            169 scenes. To enrich diversity, we employ SpatialLM for additional
+            object recognition with manual quality filtering, applied layer-wise
+            to each scene point cloud. In total, FloVerse spans 325 object
+            categories across 299 scenes.
+          </p>
+          <p style="margin-top:0.9rem;">
+            Expert trajectories cover all goal modalities —
+            <span style="color:rgb(233,113,50);font-weight:500;">PointNav</span>,
+            <span style="color:rgb(15,158,213);font-weight:500;">ObjectNav</span>, and
+            <span style="color:rgb(78,167,46);font-weight:500;">ImageNav</span> —
+            for imitation learning and evaluation. Start positions are sampled
+            at least 5&thinsp;m from the goal; shortest paths are computed via
+            A* and discretized at 10&thinsp;cm intervals, recording RGBD
+            observations and agent pose at each waypoint. The dataset contains
+            ~240K trajectories with ~12M RGBD–pose pairs, including ~74K
+            ImageNav/ObjectNav episodes.
           </p>
         </div>
 
