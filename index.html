@@ -644,22 +644,14 @@
       <p class="section-label">Abstract</p>
       <p class="abstract-text">
         <!-- Replace with your actual abstract text -->
-        Indoor navigation in real-world environments requires agents to reason
-        about both local observations and global spatial structure. While prior
-        work has explored egocentric perception and map-based planning separately,
-        exploiting <em>floor plan priors</em> as a structured, globally-consistent
-        representation remains underexplored. We introduce <strong>FloVerse</strong>,
-        a framework that tightly couples floor plan understanding with multi-modal
-        egocentric perception for robust indoor navigation. To support this research,
-        we construct the FloVerse dataset comprising over 10,000 annotated floor
-        plans and 50,000 paired expert navigation trajectories spanning diverse
-        architectural styles. Our model encodes the floor plan as a semantic
-        topological graph and cross-attends it with the visual observation stream,
-        enabling spatially grounded waypoint prediction and action generation.
-        Extensive experiments on multiple benchmarks demonstrate that FloVerse
-        significantly outperforms state-of-the-art baselines on both seen and
-        unseen environments, especially under long-horizon and cross-floor-plan
-        generalization settings.
+        Floor plans encapsulate compact spatial priors, enabling agents to navigate unseen scenes more efficiently.
+        While prior work has explored floor plan–guided navigation, it has focused mainly on PointNav and a limited set of environments.
+        To bridge this gap, we introduce FloVerse, a new task for floor plan–guided embodied navigation that unifies PointNav, ObjectNav, and ImageNav. 
+        To support this FloVerse, we assemble FloVerse-1.6K, a large-scale dataset of 1.6K scenes from HM3D and Gibson 4+, paired with corresponding floor plans, comprising 240K expert trajectories and 12M RGBD frames. 
+        We further propose ThreeDiff, a two-stage imitation learning policy comprising a planner, a diffusion-based multimodal goal-reasoning module trained via masked-modality modeling, and a refiner, a depth-based trajectory-refinement module for safe execution.
+        Extensive experiments demonstrate that 
+        (1) floor-plan priors improve navigation performance across all goal modalities, and 
+        (2) ThreeDiff implicitly captures spatial information from floor plans. These results underscore the effectiveness of spatial priors and validate our proposed unified approach for floor plan–guided embodied navigation.
       </p>
     </div>
   </div>
