@@ -222,7 +222,6 @@
     .section-desc {
       font-size: 0.92rem;
       color: var(--ink-soft);
-      max-width: 600px;
       margin-bottom: 2.5rem;
       line-height: 1.75;
     }
@@ -696,7 +695,6 @@
 <!-- ── Dataset Section ──────────────────────────────── -->
 <section id="dataset">
   <div class="section-inner">
-    <p class="section-label">Dataset</p>
     <h2 class="section-title">FloVerse Dataset</h2>
 
     <!-- Two-column: figure on left, two text blocks on right -->
@@ -831,7 +829,6 @@
 <!-- ── Pipeline Section ─────────────────────────────── -->
 <section id="pipeline">
   <div class="section-inner">
-    <p class="section-label">Method</p>
     <h2 class="section-title">Model Pipeline</h2>
     <p class="section-desc">
       Our approach encodes the floor plan as a structured prior and fuses it
@@ -846,7 +843,7 @@
         [ Model Pipeline Figure ]
       </div>
       <p class="fig-caption" style="border-top:none; padding:0.25rem 0 0;">
-        <strong>Figure 3.</strong> Overview of the proposed architecture. A floor plan encoder
+        Overview of the proposed architecture. A floor plan encoder
         extracts topological and semantic features, which are cross-attended with the
         visual observation stream to produce waypoint predictions and action distributions.
         <!-- Replace with your actual pipeline caption -->
