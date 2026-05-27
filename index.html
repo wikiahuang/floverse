@@ -856,117 +856,124 @@
     <p class="section-label">Experiments</p>
     <h2 class="section-title">Experimental Results</h2>
 
-    <p class="results-text">
-      <!-- Replace with your actual results intro text -->
-      We evaluate FloVerse against state-of-the-art baselines on the FloVerse
-      benchmark and on standard embodied navigation tasks. All methods use the
-      same observation modalities. <em>Seen</em> and <em>Unseen</em> splits test
-      in-distribution performance and zero-shot floor plan generalization,
-      respectively. Our model consistently outperforms baselines across all metrics,
-      with particularly large gains on long-horizon tasks (&gt;60 steps) and in
-      unseen environments where floor plan priors provide the strongest signal.
-    </p>
-
     <div class="results-tables">
 
-      <!-- Table 1: Main comparison -->
+      <!-- Table 1: Ablation w/o floor plan -->
       <div class="table-wrap-results">
         <div class="table-caption-top">
-          <strong>Table 2.</strong> Main results on the FloVerse benchmark (Seen split).
-          SR: Success Rate. SPL: Success weighted by Path Length. NE: Navigation Error (m). Best results in bold.
-          <!-- Replace with your actual caption -->
+          <strong>Comparison between FloVerse and FloVerse w/o F.</strong>
         </div>
         <table class="results-table">
           <thead>
             <tr>
-              <th>Method</th>
-              <th>SR ↑</th>
-              <th>SPL ↑</th>
-              <th>NE ↓</th>
-              <th>SR ↑</th>
-              <th>SPL ↑</th>
-              <th>NE ↓</th>
+              <th rowspan="2">Method</th>
+              <th colspan="2" style="color:rgb(233,113,50);">PointNav</th>
+              <th colspan="2" style="color:rgb(78,167,46);">ImageNav</th>
+              <th colspan="2" style="color:rgb(15,158,213);">ObjectNav</th>
             </tr>
-            <tr style="background: rgba(255,255,255,0.05);">
-              <th></th>
-              <th colspan="3" style="font-size:0.65rem; color:var(--gold-light); letter-spacing:0.1em;">Short (&lt;40 steps)</th>
-              <th colspan="3" style="font-size:0.65rem; color:var(--gold-light); letter-spacing:0.1em;">Long (&gt;60 steps)</th>
+            <tr>
+              <th>SR</th><th>SPL</th>
+              <th>SR</th><th>SPL</th>
+              <th>SR</th><th>SPL</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Baseline A</td>
-              <td>62.4</td><td>51.3</td><td>3.21</td>
-              <td>38.7</td><td>29.6</td><td>5.84</td>
-            </tr>
-            <tr>
-              <td>Baseline B</td>
-              <td>66.1</td><td>54.8</td><td>2.97</td>
-              <td>41.2</td><td>32.1</td><td>5.41</td>
-            </tr>
-            <tr>
-              <td>Baseline C</td>
-              <td>70.5</td><td>58.2</td><td>2.63</td>
-              <td>45.8</td><td>36.4</td><td>4.92</td>
+              <td>FloVerse w/o F</td>
+              <td>25.8</td><td>25.6</td>
+              <td>22.6</td><td>18.4</td>
+              <td>20.9</td><td>16.5</td>
             </tr>
             <tr class="ours">
-              <td>FloVerse (Ours)</td>
-              <td class="best">78.3</td><td class="best">65.7</td><td class="best">2.01</td>
-              <td class="best">58.4</td><td class="best">47.2</td><td class="best">3.74</td>
+              <td>FloVerse</td>
+              <td class="best">42.0</td><td class="best">36.6</td>
+              <td class="best">28.9</td><td class="best">22.4</td>
+              <td class="best">28.6</td><td class="best">22.3</td>
             </tr>
           </tbody>
-          <tfoot>
-            <tr><td colspan="7">↑ Higher is better. ↓ Lower is better.</td></tr>
-          </tfoot>
+          <tfoot><tr><td colspan="7">SR: Success Rate &ensp;·&ensp; SPL: Success weighted by Path Length</td></tr></tfoot>
         </table>
       </div>
 
-      <!-- Text between tables -->
-      <p class="results-text">
-        <!-- Replace with text between tables (e.g., ablation description) -->
-        Table 3 presents ablation results on the Unseen split, validating the
-        contribution of each component. Removing the floor plan encoder causes
-        the largest performance drop, confirming that global spatial priors are
-        essential for cross-environment generalization.
-      </p>
-
-      <!-- Table 2: Ablation / Unseen -->
+      <!-- Table 2: PointNav baselines -->
       <div class="table-wrap-results">
         <div class="table-caption-top">
-          <strong>Table 3.</strong> Ablation study on the Unseen split.
-          <!-- Replace with your actual caption -->
+          <strong>Performance of baselines on the <span style="color:rgb(233,113,50);">PointNav</span> task in the Gibson 4+ and HM3D scenes.</strong>
         </div>
         <table class="results-table">
           <thead>
             <tr>
-              <th>Variant</th>
-              <th>Floor Plan Enc.</th>
-              <th>Cross-Attn.</th>
-              <th>SR ↑</th>
-              <th>SPL ↑</th>
-              <th>NE ↓</th>
+              <th rowspan="2">Method</th>
+              <th colspan="2">Gibson 4+</th>
+              <th colspan="2">HM3D</th>
+            </tr>
+            <tr>
+              <th>SR</th><th>SPL</th>
+              <th>SR</th><th>SPL</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>w/o Floor Plan</td>
-              <td>✗</td><td>✗</td>
-              <td>34.2</td><td>25.6</td><td>6.47</td>
+              <td>DD-PPO</td>
+              <td>18.3</td><td>10.5</td>
+              <td>13.7</td><td>7.0</td>
             </tr>
             <tr>
-              <td>w/o Cross-Attn.</td>
-              <td>✓</td><td>✗</td>
-              <td>41.8</td><td>33.1</td><td>5.32</td>
+              <td>FloDiff (pretrain)</td>
+              <td>40.0</td><td>28.8</td>
+              <td>23.7</td><td>17.8</td>
             </tr>
             <tr>
-              <td>Concat. Fusion</td>
-              <td>✓</td><td>–</td>
-              <td>45.3</td><td>36.8</td><td>4.91</td>
+              <td>FloDiff (finetune)</td>
+              <td>38.8</td><td>29.6</td>
+              <td>27.7</td><td>21.1</td>
             </tr>
             <tr class="ours">
-              <td>FloVerse (Full)</td>
-              <td>✓</td><td>✓</td>
-              <td class="best">52.1</td><td class="best">43.4</td><td class="best">4.12</td>
+              <td>FloVerse</td>
+              <td class="best">54.4</td><td class="best">50.0</td>
+              <td class="best">38.1</td><td class="best">32.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table 3: ImageNav & ObjectNav -->
+      <div class="table-wrap-results">
+        <div class="table-caption-top">
+          <strong>Evaluation on the <span style="color:rgb(78,167,46);">ImageNav</span> and <span style="color:rgb(15,158,213);">ObjectNav</span> tasks.</strong>
+        </div>
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th rowspan="2">Method</th>
+              <th colspan="2">ImageNav</th>
+              <th colspan="2">ObjectNav</th>
+            </tr>
+            <tr>
+              <th>SR</th><th>SPL</th>
+              <th>SR</th><th>SPL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ZSON</td>
+              <td>—</td><td>—</td>
+              <td>7.2</td><td>1.1</td>
+            </tr>
+            <tr>
+              <td>NoMad (pretrain)</td>
+              <td>15.4</td><td>10.9</td>
+              <td>—</td><td>—</td>
+            </tr>
+            <tr>
+              <td>NoMad (finetune)</td>
+              <td>22.8</td><td>17.0</td>
+              <td>—</td><td>—</td>
+            </tr>
+            <tr class="ours">
+              <td>FloVerse</td>
+              <td class="best">28.9</td><td class="best">22.4</td>
+              <td class="best">28.6</td><td class="best">22.3</td>
             </tr>
           </tbody>
         </table>
