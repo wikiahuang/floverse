@@ -830,23 +830,21 @@
 <section id="pipeline">
   <div class="section-inner">
     <h2 class="section-title">Model Pipeline</h2>
-    <p class="section-desc">
-      Our approach encodes the floor plan as a structured prior and fuses it
-      with egocentric perception to generate spatially grounded navigation plans.
-    </p>
 
     <div class="pipeline-wrap">
-      <!-- Replace src with your pipeline figure -->
       <img src="assets/pipeline.png" alt="Model pipeline"
            onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
       <div class="figure-placeholder" style="aspect-ratio:21/7; margin-bottom:1rem; border-radius:6px; display:none;">
         [ Model Pipeline Figure ]
       </div>
-      <p class="fig-caption" style="border-top:none; padding:0.25rem 0 0;">
-        Overview of the proposed architecture. A floor plan encoder
-        extracts topological and semantic features, which are cross-attended with the
-        visual observation stream to produce waypoint predictions and action distributions.
-        <!-- Replace with your actual pipeline caption -->
+      <p class="fig-caption" style="border-top:none; padding:0.75rem 0 0;">
+        <strong>Overview of FloVerse.</strong> FloVerse is a two-stage trajectory generation
+        framework for floor plan–guided navigation. In the first stage, goal-related features,
+        floor plan representations, and observation embeddings are concatenated and used as
+        the conditioning input to a diffusion model, which generates a coarse initial
+        trajectory. In the second stage, depth-derived obstacle-awareness features are
+        integrated with the initial trajectory and fed into a second diffusion model, which
+        refines the trajectory to yield a final, obstacle-aware navigation path.
       </p>
     </div>
   </div>
