@@ -775,52 +775,46 @@
     <!-- Dataset statistics table -->
     <div class="table-wrap">
       <div class="table-caption">
-        <strong>Table 1.</strong> FloVerse dataset statistics across splits.
-        <!-- Replace with your actual table caption -->
+        <strong>Data splits and the number of navigation episodes.</strong>
+        IO episodes refer to the episodes supporting
+        <span style="color:rgb(78,167,46);font-weight:500;">ImageNav</span> /
+        <span style="color:rgb(15,158,213);font-weight:500;">ObjectNav</span>.
       </div>
       <table class="data-table">
         <thead>
           <tr>
-            <th>Split</th>
-            <th>Floor Plans</th>
-            <th>Episodes</th>
-            <th>Avg. Steps</th>
-            <th>Scene Types</th>
-            <th>Avg. Rooms</th>
+            <th rowspan="2">Dataset</th>
+            <th colspan="2" style="text-align:center; border-bottom:1px solid var(--cream-3);">Train</th>
+            <th colspan="2" style="text-align:center; border-bottom:1px solid var(--cream-3);">Eval</th>
+          </tr>
+          <tr>
+            <th>HM3D</th>
+            <th>Gibson 4+</th>
+            <th>HM3D</th>
+            <th>Gibson 4+</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="row-head">Train</td>
-            <td class="val">8,200</td>
-            <td class="val">42,000</td>
-            <td class="val">68.4</td>
-            <td class="val">48</td>
-            <td class="val">5.2</td>
+            <td class="row-head">Scenes</td>
+            <td class="val">1,321</td>
+            <td class="val">121</td>
+            <td class="val">167</td>
+            <td class="val">18</td>
           </tr>
           <tr>
-            <td class="row-head">Validation</td>
-            <td class="val">1,000</td>
-            <td class="val">5,000</td>
-            <td class="val">71.1</td>
-            <td class="val">42</td>
-            <td class="val">5.4</td>
+            <td class="row-head">Total episodes</td>
+            <td class="val">198,150</td>
+            <td class="val">18,150</td>
+            <td class="val">25,050</td>
+            <td class="val">2,700</td>
           </tr>
           <tr>
-            <td class="row-head">Test (Seen)</td>
-            <td class="val">500</td>
-            <td class="val">2,000</td>
-            <td class="val">69.8</td>
-            <td class="val">38</td>
-            <td class="val">5.1</td>
-          </tr>
-          <tr>
-            <td class="row-head">Test (Unseen)</td>
-            <td class="val">300</td>
-            <td class="val">1,000</td>
-            <td class="val">74.6</td>
-            <td class="val">22</td>
-            <td class="val">5.8</td>
+            <td class="row-head">IO episodes</td>
+            <td class="val">65,700</td>
+            <td style="text-align:center; color:var(--ink-muted);">—</td>
+            <td class="val">8,550</td>
+            <td style="text-align:center; color:var(--ink-muted);">—</td>
           </tr>
         </tbody>
       </table>
