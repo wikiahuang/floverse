@@ -729,7 +729,7 @@
             Floor Plan Construction
           </h4>
           <p>
-            To support FloVerse, we extract stable structural elements, such as walls,
+            We extract stable structural elements, such as walls,
             from object-containing meshes, as these elements correspond to features
             represented in floor plans. Vertices are first filtered based on their height
             and normal orientation, with a threshold of 1.25&thinsp;m, effectively
@@ -753,16 +753,18 @@
             categories across 299 scenes.
           </p>
           <p style="margin-top:0.9rem;">
-            Expert trajectories cover all goal modalities —
-            <span style="color:rgb(233,113,50);font-weight:500;">PointNav</span>,
-            <span style="color:rgb(15,158,213);font-weight:500;">ObjectNav</span>, and
-            <span style="color:rgb(78,167,46);font-weight:500;">ImageNav</span> —
-            for imitation learning and evaluation. Start positions are sampled
-            at least 5&thinsp;m from the goal; shortest paths are computed via
-            A* and discretized at 10&thinsp;cm intervals, recording RGBD
-            observations and agent pose at each waypoint. The dataset contains
+            We construct expert trajectories covering all three goal modalities.
+            For <span style="color:rgb(233,113,50);font-weight:500;">PointNav</span>,
+            goals are randomly sampled positions on the navigable map.
+            For <span style="color:rgb(15,158,213);font-weight:500;">ObjectNav</span>
+            and <span style="color:rgb(78,167,46);font-weight:500;">ImageNav</span>,
+            goals correspond to annotated object locations. Start positions are
+            randomly chosen from navigable areas at least 5&thinsp;m from the goal.
+            The shortest path between each start–goal pair is computed via A* and
+            discretized into waypoints at 10&thinsp;cm intervals, recording RGBD
+            observations and agent pose at each step. In total, FloVerse contains
             ~240K trajectories with ~12M RGBD–pose pairs, including ~74K
-            ImageNav/ObjectNav episodes.
+            ObjectNav/ImageNav episodes.
           </p>
         </div>
 
