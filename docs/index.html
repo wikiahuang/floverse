@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FloVerse: Floor Plan-Guided Multi-Modal Navigation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --cream:    #f7f3ee;
+      --cream-2:  #f0ebe3;
+      --cream-3:  #e8e0d4;
+      --rose:     #7a5c5c;
+      --rose-light: #a07878;
+      --gold:     #c4a882;
+      --gold-light: #dfc9a8;
+      --ink:      #2e2424;
+      --ink-soft: #5a4848;
+      --ink-muted:#9e8a7a;
+      --white:    #fdfaf7;
+      --shadow:   0 2px 20px rgba(60,40,30,0.08);
+      --shadow-md:0 6px 40px rgba(60,40,30,0.12);
+      --radius:   10px;
+      --max-w:    960px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── Navigation ───────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(247, 243, 238, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--cream-3);
+    }
+    .nav-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 2rem;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--rose);
+      letter-spacing: 0.08em;
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--rose); }
+
+    /* ── Hero ─────────────────────────────────────── */
+    .hero {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 5rem 2rem 2rem;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6em;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      color: var(--ink-soft);
+      margin-bottom: 2rem;
+    }
+    .hero-badge .badge-conf {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      font-style: italic;
+      color: var(--rose);
+      letter-spacing: 0.06em;
+    }
+    .hero-badge .badge-sep {
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .hero h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 500;
+      line-height: 1.2;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      letter-spacing: 0.01em;
+    }
+    .hero h1 em { font-style: normal; color: var(--ink); }
+    .hero-subtitle {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      max-width: 640px;
+      margin: 0 auto 2.2rem;
+    }
+
+    /* Authors */
+    .authors {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      margin-bottom: 0.5rem;
+    }
+    .authors a { color: var(--rose-light); text-decoration: none; }
+    .authors a:hover { text-decoration: underline; }
+    .affiliation {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      margin-bottom: 2rem;
+    }
+
+    /* CTA Buttons */
+    .btn-group {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45em;
+      padding: 0.55em 1.4em;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary { background: var(--rose); color: #fff; }
+    .btn-primary:hover { background: #6a4e4e; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(122,92,92,0.35); }
+    .btn-secondary { background: var(--white); color: var(--ink-soft); border: 1px solid var(--cream-3); }
+    .btn-secondary:hover { border-color: var(--gold); color: var(--rose); transform: translateY(-1px); }
+    .btn-gold { background: var(--gold); color: var(--white); }
+    .btn-gold:hover { background: #b09570; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(196,168,130,0.4); }
+    .btn svg { width: 16px; height: 16px; flex-shrink: 0; }
+
+    .hero-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin: 0 auto;
+    }
+    .hero-divider::before,
+    .hero-divider::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold));
+    }
+    .hero-divider::after {
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+    .hero-divider-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ── Section Shared ───────────────────────────── */
+    section { padding: 5rem 2rem; }
+    section:nth-child(even) { background: var(--cream-2); }
+    .section-inner { max-width: var(--max-w); margin: 0 auto; }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'EB Garamond', serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.8rem;
+      line-height: 1.25;
+    }
+    .section-desc {
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      margin-bottom: 2.5rem;
+      line-height: 1.75;
+    }
+
+    #abstract { padding-top: 3rem; padding-bottom: 2rem; }
+
+    /* ── Abstract ─────────────────────────────────── */
+    .abstract-block {
+      text-align: left;
+    }
+    .abstract-text {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.95;
+      text-align: justify;
+    }
+
+    /* ── Teaser ───────────────────────────────────── */
+    #teaser { padding: 1rem 2rem 4rem; }
+    .teaser-figure {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      background: transparent;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .teaser-figure img {
+      width: 100%;
+      display: block;
+      mix-blend-mode: multiply;
+    }
+    /* PDF teaser option: use <object> or <iframe> instead of <img>
+       <object data="assets/teaser.pdf" type="application/pdf"
+               class="teaser-pdf" style="height:520px;"></object>
+       Note: PDF embedding is not supported on iOS Safari or some mobile browsers.
+       Converting teaser to PNG is recommended for better compatibility. */
+    .teaser-caption {
+      padding: 1rem 1.5rem 1.25rem;
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      line-height: 1.7;
+      border-top: 1px solid var(--cream-3);
+    }
+    .teaser-caption strong { color: var(--ink-soft); }
+
+    /* ── Dataset ──────────────────────────────────── */
+    .dataset-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      align-items: start;
+      margin-bottom: 2.5rem;
+    }
+    .dataset-figure {
+      background: transparent;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 72px;
+    }
+    .dataset-figure img {
+      width: 100%;
+      display: block;
+    }
+    .fig-caption {
+      padding: 0.75rem 1rem;
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      line-height: 1.6;
+      border-top: 1px solid var(--cream-3);
+    }
+    .fig-caption strong { color: var(--ink-soft); }
+    .dataset-texts {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 2.5rem;
+    }
+    .dataset-text-block h4 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.15rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .dataset-text-block h4 .tag-num {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--cream-2);
+      border: 1px solid var(--cream-3);
+      padding: 0.15em 0.55em;
+      border-radius: 4px;
+    }
+    .dataset-text-block p {
+      font-size: 0.88rem;
+      color: var(--ink-soft);
+      line-height: 1.85;
+    }
+
+    /* ── Data Table ───────────────────────────────── */
+    .table-wrap {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+    .table-caption {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      padding: 0.9rem 1.4rem 0.7rem;
+      border-bottom: 1px solid var(--cream-3);
+    }
+    .table-caption strong { color: var(--ink); }
+    table.data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.83rem;
+    }
+    table.data-table th {
+      background: var(--cream-2);
+      color: var(--ink-soft);
+      font-weight: 600;
+      font-size: 0.72rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.4rem;
+      text-align: left;
+      border-bottom: 2px solid var(--cream-3);
+    }
+    table.data-table td {
+      padding: 0.6rem 1.4rem;
+      color: var(--ink-soft);
+      border-bottom: 1px solid var(--cream-3);
+    }
+    table.data-table tr:last-child td { border-bottom: none; }
+    table.data-table tr:hover td { background: var(--cream-2); }
+    table.data-table td.val { font-family: 'EB Garamond', serif; font-size: 1.05rem; color: var(--rose); }
+    table.data-table td.row-head { font-weight: 500; color: var(--ink); }
+
+    /* Download links below table */
+    .download-row {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      margin-top: 1.75rem;
+    }
+
+    /* ── Figure placeholder (generic) ────────────── */
+    .figure-placeholder {
+      aspect-ratio: 16/7;
+      background: var(--cream-2);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed var(--cream-3);
+      color: var(--ink-muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+    }
+
+    /* ── Pipeline ─────────────────────────────────── */
+    .pipeline-wrap img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ── Results ──────────────────────────────────── */
+    .results-text {
+      font-size: 0.9rem;
+      color: var(--ink-soft);
+      line-height: 1.85;
+      margin-bottom: 2rem;
+      max-width: 760px;
+    }
+    .results-tables { display: flex; flex-direction: column; gap: 2.5rem; }
+
+    .table-wrap-results {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .table-caption-top {
+      font-size: 0.8rem;
+      color: var(--ink-soft);
+      padding: 0.9rem 1.4rem 0.7rem;
+      border-bottom: 1px solid var(--cream-3);
+    }
+    .table-caption-top strong { color: var(--ink); }
+    table.results-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.82rem;
+    }
+    table.results-table thead th {
+      background: var(--ink);
+      color: var(--cream-2);
+      font-weight: 500;
+      font-size: 0.73rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.2rem;
+      text-align: center;
+    }
+    table.results-table thead th:first-child { text-align: left; }
+    table.results-table tbody td {
+      padding: 0.6rem 1.2rem;
+      text-align: center;
+      border-bottom: 1px solid var(--cream-3);
+      color: var(--ink-soft);
+    }
+    table.results-table tbody td:first-child { text-align: left; color: var(--ink); }
+    table.results-table tbody tr:last-child td { border-bottom: none; }
+    table.results-table tbody tr:hover td { background: var(--cream-2); }
+    table.results-table tbody tr.ours td {
+      font-weight: 600;
+      color: var(--rose);
+      background: rgba(196,168,130,0.08);
+    }
+    table.results-table tbody tr.ours td:first-child { color: var(--rose); }
+    .best { font-weight: 700; text-decoration: underline; }
+    table.results-table tfoot td {
+      font-size: 0.72rem;
+      color: var(--ink-muted);
+      padding: 0.55rem 1.2rem;
+      border-top: 1px solid var(--cream-3);
+      text-align: left;
+    }
+
+    /* ── Citation ─────────────────────────────────── */
+    #citation {
+      background: var(--ink);
+      color: var(--cream-3);
+    }
+    #citation .section-label { color: var(--gold); }
+    #citation .section-title { color: var(--cream); }
+    #citation .section-desc { color: #9e8e80; }
+    .bibtex-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.75rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem;
+      line-height: 1.8;
+      color: #c8b8a8;
+      overflow-x: auto;
+      position: relative;
+    }
+    .bibtex-box .key { color: var(--gold-light); }
+    .bibtex-box .val { color: #d4c4b4; }
+    .copy-btn {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: var(--cream-3);
+      padding: 0.3em 0.8em;
+      border-radius: 5px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,0.14); }
+
+    /* ── Footer ───────────────────────────────────── */
+    footer {
+      background: var(--ink);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2rem;
+      text-align: center;
+      font-size: 0.78rem;
+      color: #6e5e54;
+    }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Utilities ────────────────────────────────── */
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      padding: 0.2em 0.7em;
+      border-radius: 4px;
+      background: var(--cream-2);
+      color: var(--ink-soft);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      border: 1px solid var(--cream-3);
+    }
+    .tag-group { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      section { padding: 3.5rem 1.25rem; }
+      .dataset-layout { grid-template-columns: 1fr; }
+      .dataset-figure { position: static; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Navigation ──────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-brand">FloVerse</a>
+    <ul class="nav-links">
+      <li><a href="#demo">Demo</a></li>
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#dataset">Dataset</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#citation">Cite</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── Hero ────────────────────────────────────────── -->
+<header class="hero">
+  <div class="hero-badge">
+    <span class="badge-conf">CVPR 2026</span>
+  </div>
+
+  <h1>FloVerse: Floor Plan-Guided<br><em>Multi-Modal Navigation</em></h1>
+
+
+
+  <p class="authors">
+    <a href="https://wikiahuang.github.io/" target="_blank">Weiqi Huang</a>,&ensp;
+    Shuangyi Dong,&ensp;
+    <a href="https://gauleejx.github.io/" target="_blank">Jiaxin Li</a>,&ensp;
+    Yifei Guo,&ensp;
+    <a href="https://silvester.wang/" target="_blank">Zan Wang</a>,&ensp;
+    <a href="https://liangwei-bit.github.io/web/" target="_blank">Wei Liang</a><sup>&#x2709;</sup>
+  </p>
+  <p class="affiliation">
+    School of Computer Science &amp; Technology, Beijing Institute of Technology
+  </p>
+
+  <div class="btn-group">
+    <a href="#" class="btn btn-primary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Paper (arXiv)
+    </a>
+    <a href="#dataset" class="btn btn-gold">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+      Dataset
+    </a>
+    <a href="#" class="btn btn-secondary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      Code
+    </a>
+  </div>
+
+  <div class="hero-divider"><span class="hero-divider-dot"></span></div>
+</header>
+
+<!-- ── Demo Video ────────────────────────────────────── -->
+<section id="demo">
+  <div class="section-inner">
+    <div style="border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-md);">
+      <iframe width="100%" style="aspect-ratio:16/9; display:block; border:none;"
+        src="https://www.youtube.com/embed/hDumqRcNmcw"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ── Abstract ─────────────────────────────────────── -->
+<section id="abstract">
+  <div class="section-inner">
+    <div class="abstract-block">
+      <p class="section-label">Abstract</p>
+      <p class="abstract-text">
+        <!-- Replace with your actual abstract text -->
+        Floor plans encapsulate compact spatial priors, enabling agents to navigate unseen scenes more efficiently.
+        While prior work has explored floor plan–guided navigation, it has focused mainly on PointNav and a limited set of environments.
+        To bridge this gap, we introduce FloVerse, a new task for floor plan–guided embodied navigation that unifies PointNav, ObjectNav, and ImageNav. 
+        To support this FloVerse, we assemble FloVerse-1.6K, a large-scale dataset of 1.6K scenes from HM3D and Gibson 4+, paired with corresponding floor plans, comprising 240K expert trajectories and 12M RGBD frames. 
+        We further propose ThreeDiff, a two-stage imitation learning policy comprising a planner, a diffusion-based multimodal goal-reasoning module trained via masked-modality modeling, and a refiner, a depth-based trajectory-refinement module for safe execution.
+        Extensive experiments demonstrate that 
+        (1) floor-plan priors improve navigation performance across all goal modalities, and 
+        (2) ThreeDiff implicitly captures spatial information from floor plans. These results underscore the effectiveness of spatial priors and validate our proposed unified approach for floor plan–guided embodied navigation.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Teaser Figure ─────────────────────────────────── -->
+<!--
+  OPTION A (recommended): Convert your PDF teaser to PNG first, e.g.:
+    pdftoppm -r 200 teaser.pdf assets/teaser && mv assets/teaser-1.ppm assets/teaser.png
+  Then use <img src="assets/teaser.png" ...>.
+
+  OPTION B (PDF embed): Replace the <img> below with:
+    <object data="assets/teaser.pdf" type="application/pdf"
+            style="width:100%; height:560px; display:block;"></object>
+  Warning: PDF inline display is NOT supported on iOS Safari or many mobile browsers.
+-->
+<div id="teaser">
+  <div class="teaser-figure">
+    <!-- Replace src with your actual teaser image or use the PDF object above -->
+    <img src="assets/teaser.png" alt="FloVerse teaser figure"
+         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+    <!-- Placeholder shown when image is missing -->
+    <div class="figure-placeholder" style="aspect-ratio:21/8; margin:0; border-radius:0; border:none; display:none;">
+      [ Teaser Figure ]
+    </div>
+    <p class="teaser-caption">
+      <strong>Overview of FloVerse.</strong> The agent is given a goal of any modality
+      (<span style="color:rgb(233,113,50); font-weight:500;">PointNav</span>,
+      <span style="color:rgb(15,158,213); font-weight:500;">ObjectNav</span>, or
+      <span style="color:rgb(78,167,46); font-weight:500;">ImageNav</span>).
+      Prior methods rely only on local observations and must explore unseen areas.
+      In contrast, FloVerse leverages floor-plan spatial priors for more efficient navigation.
+    </p>
+  </div>
+</div>
+
+<!-- ── Dataset Section ──────────────────────────────── -->
+<section id="dataset">
+  <div class="section-inner">
+    <h2 class="section-title">FloVerse Dataset</h2>
+
+    <!-- Two-column: figure on left, two text blocks on right -->
+    <div class="dataset-layout">
+
+      <div class="dataset-figure">
+        <!-- Replace src with your dataset figure -->
+        <img src="assets/page_dataset.png" alt="Dataset overview figure"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="figure-placeholder" style="aspect-ratio:3/4; margin:0; border-radius:0; border:none; display:none;">
+          [ Dataset Figure ]
+        </div>
+        <p class="fig-caption">
+          FloVerse data collection and construction pipeline.
+          <!-- Replace with your actual figure caption -->
+        </p>
+      </div>
+
+      <div class="dataset-texts">
+
+        <div class="dataset-text-block">
+          <h4>
+            <span class="tag-num">Part I</span>
+            Floor Plan Construction
+          </h4>
+          <p>
+            We extract stable structural elements, such as walls,
+            from object-containing meshes, as these elements correspond to features
+            represented in floor plans. Vertices are first filtered based on their height
+            and normal orientation, with a threshold of 1.25&thinsp;m, effectively
+            removing most objects. To further mitigate reconstruction artifacts and
+            spurious noise, we apply morphological operations, including dilation and
+            erosion, for denoising.
+          </p>
+        </div>
+
+        <div class="dataset-text-block">
+          <h4>
+            <span class="tag-num">Part II</span>
+            Expert Trajectory Collection
+          </h4>
+          <p>
+            We build upon HM3D-OVON (379 categories, 181 scenes), cleaning
+            viewpoints outside navigable regions to yield 304 categories across
+            169 scenes. To enrich diversity, we employ SpatialLM for additional
+            object recognition with manual quality filtering, applied layer-wise
+            to each scene point cloud. In total, FloVerse spans 325 object
+            categories across 299 scenes.
+          </p>
+          <p style="margin-top:0.9rem;">
+            We construct expert trajectories covering all three goal modalities.
+            For <span style="color:rgb(233,113,50);font-weight:500;">PointNav</span>,
+            goals are randomly sampled positions on the navigable map.
+            For <span style="color:rgb(15,158,213);font-weight:500;">ObjectNav</span>
+            and <span style="color:rgb(78,167,46);font-weight:500;">ImageNav</span>,
+            goals correspond to annotated object locations. Start positions are
+            randomly chosen from navigable areas at least 5&thinsp;m from the goal.
+            The shortest path between each start–goal pair is computed via A* and
+            discretized into waypoints at 10&thinsp;cm intervals, recording RGBD
+            observations and agent pose at each step. In total, FloVerse contains
+            ~240K trajectories with ~12M RGBD–pose pairs, including ~74K
+            ObjectNav/ImageNav episodes.
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Dataset statistics table -->
+    <div class="table-wrap">
+      <div class="table-caption">
+        <strong>Data splits and the number of navigation episodes.</strong>
+        IO episodes refer to the episodes supporting
+        <span style="color:rgb(78,167,46);font-weight:500;">ImageNav</span> /
+        <span style="color:rgb(15,158,213);font-weight:500;">ObjectNav</span>.
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th rowspan="2">Dataset</th>
+            <th colspan="2" style="text-align:center; border-bottom:1px solid var(--cream-3);">Train</th>
+            <th colspan="2" style="text-align:center; border-bottom:1px solid var(--cream-3);">Eval</th>
+          </tr>
+          <tr>
+            <th>HM3D</th>
+            <th>Gibson 4+</th>
+            <th>HM3D</th>
+            <th>Gibson 4+</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="row-head">Scenes</td>
+            <td class="val">1,321</td>
+            <td class="val">121</td>
+            <td class="val">167</td>
+            <td class="val">18</td>
+          </tr>
+          <tr>
+            <td class="row-head">Total episodes</td>
+            <td class="val">198,150</td>
+            <td class="val">18,150</td>
+            <td class="val">25,050</td>
+            <td class="val">2,700</td>
+          </tr>
+          <tr>
+            <td class="row-head">IO episodes</td>
+            <td class="val">65,700</td>
+            <td style="text-align:center; color:var(--ink-muted);">—</td>
+            <td class="val">8,550</td>
+            <td style="text-align:center; color:var(--ink-muted);">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Download links -->
+    <div class="download-row">
+      <a href="https://huggingface.co/datasets/weiqi124/FloVerse-FloorPlan" target="_blank" class="btn btn-gold">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Floor Plans (HuggingFace)
+      </a>
+      <a href="https://modelscope.cn/datasets/weiqihuang/floverse-1.6k" target="_blank" class="btn btn-gold">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Trajectories (ModelScope)
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── Pipeline Section ─────────────────────────────── -->
+<section id="pipeline">
+  <div class="section-inner">
+    <h2 class="section-title">Model Pipeline</h2>
+
+    <div class="pipeline-wrap">
+      <img src="assets/pipeline.png" alt="Model pipeline"
+           onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <div class="figure-placeholder" style="aspect-ratio:21/7; margin-bottom:1rem; border-radius:6px; display:none;">
+        [ Model Pipeline Figure ]
+      </div>
+      <p class="fig-caption" style="border-top:none; padding:0.75rem 0 0;">
+        <strong>Overview of FloVerse.</strong> FloVerse is a two-stage trajectory generation
+        framework for floor plan–guided navigation. In the first stage, goal-related features,
+        floor plan representations, and observation embeddings are concatenated and used as
+        the conditioning input to a diffusion model, which generates a coarse initial
+        trajectory. In the second stage, depth-derived obstacle-awareness features are
+        integrated with the initial trajectory and fed into a second diffusion model, which
+        refines the trajectory to yield a final, obstacle-aware navigation path.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── Results Section ──────────────────────────────── -->
+<section id="results">
+  <div class="section-inner">
+    <p class="section-label">Experiments</p>
+    <h2 class="section-title">Experimental Results</h2>
+
+    <div class="results-tables">
+
+      <!-- Table 1: Ablation w/o floor plan -->
+      <div class="table-wrap-results">
+        <div class="table-caption-top">
+          <strong>Comparison between FloVerse and FloVerse w/o F.</strong>
+        </div>
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th rowspan="2">Method</th>
+              <th colspan="2" style="color:rgb(233,113,50);">PointNav</th>
+              <th colspan="2" style="color:rgb(78,167,46);">ImageNav</th>
+              <th colspan="2" style="color:rgb(15,158,213);">ObjectNav</th>
+            </tr>
+            <tr>
+              <th>SR</th><th>SPL</th>
+              <th>SR</th><th>SPL</th>
+              <th>SR</th><th>SPL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>FloVerse w/o F</td>
+              <td>25.8</td><td>25.6</td>
+              <td>22.6</td><td>18.4</td>
+              <td>20.9</td><td>16.5</td>
+            </tr>
+            <tr class="ours">
+              <td>FloVerse</td>
+              <td class="best">42.0</td><td class="best">36.6</td>
+              <td class="best">28.9</td><td class="best">22.4</td>
+              <td class="best">28.6</td><td class="best">22.3</td>
+            </tr>
+          </tbody>
+          <tfoot><tr><td colspan="7">SR: Success Rate &ensp;·&ensp; SPL: Success weighted by Path Length</td></tr></tfoot>
+        </table>
+      </div>
+
+      <!-- Table 2: PointNav baselines -->
+      <div class="table-wrap-results">
+        <div class="table-caption-top">
+          <strong>Performance of baselines on the <span style="color:rgb(233,113,50);">PointNav</span> task in the Gibson 4+ and HM3D scenes.</strong>
+        </div>
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th rowspan="2">Method</th>
+              <th colspan="2">Gibson 4+</th>
+              <th colspan="2">HM3D</th>
+            </tr>
+            <tr>
+              <th>SR</th><th>SPL</th>
+              <th>SR</th><th>SPL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>DD-PPO</td>
+              <td>18.3</td><td>10.5</td>
+              <td>13.7</td><td>7.0</td>
+            </tr>
+            <tr>
+              <td>FloDiff (pretrain)</td>
+              <td>40.0</td><td>28.8</td>
+              <td>23.7</td><td>17.8</td>
+            </tr>
+            <tr>
+              <td>FloDiff (finetune)</td>
+              <td>38.8</td><td>29.6</td>
+              <td>27.7</td><td>21.1</td>
+            </tr>
+            <tr class="ours">
+              <td>FloVerse</td>
+              <td class="best">54.4</td><td class="best">50.0</td>
+              <td class="best">38.1</td><td class="best">32.5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Table 3: ImageNav & ObjectNav -->
+      <div class="table-wrap-results">
+        <div class="table-caption-top">
+          <strong>Evaluation on the <span style="color:rgb(78,167,46);">ImageNav</span> and <span style="color:rgb(15,158,213);">ObjectNav</span> tasks.</strong>
+        </div>
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th rowspan="2">Method</th>
+              <th colspan="2">ImageNav</th>
+              <th colspan="2">ObjectNav</th>
+            </tr>
+            <tr>
+              <th>SR</th><th>SPL</th>
+              <th>SR</th><th>SPL</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>ZSON</td>
+              <td>—</td><td>—</td>
+              <td>7.2</td><td>1.1</td>
+            </tr>
+            <tr>
+              <td>NoMad (pretrain)</td>
+              <td>15.4</td><td>10.9</td>
+              <td>—</td><td>—</td>
+            </tr>
+            <tr>
+              <td>NoMad (finetune)</td>
+              <td>22.8</td><td>17.0</td>
+              <td>—</td><td>—</td>
+            </tr>
+            <tr class="ours">
+              <td>FloVerse</td>
+              <td class="best">28.9</td><td class="best">22.4</td>
+              <td class="best">28.6</td><td class="best">22.3</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── Citation Section ─────────────────────────────── -->
+<section id="citation">
+  <div class="section-inner">
+    <p class="section-label">Reference</p>
+    <h2 class="section-title">Citation</h2>
+    <p class="section-desc">
+      If you use FloVerse in your research, please cite our paper.
+    </p>
+    <div class="bibtex-box">
+      <button class="copy-btn" onclick="copyBib()">Copy</button>
+<span class="key">@inproceedings</span>{floverse2026,<br>
+&nbsp;&nbsp;<span class="key">title</span>     = {<span class="val">FloVerse: Floor Plan-Guided Multi-Modal Navigation</span>},<br>
+&nbsp;&nbsp;<span class="key">author</span>    = {<span class="val">Weiqi Huang and Shuangyi Dong and Jiaxin Li and Yifei Guo and Zan Wang and Wei Liang</span>},<br>
+&nbsp;&nbsp;<span class="key">booktitle</span> = {<span class="val">Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</span>},<br>
+&nbsp;&nbsp;<span class="key">year</span>      = {<span class="val">2026</span>}<br>
+}
+    </div>
+  </div>
+</section>
+
+<!-- ── Footer ───────────────────────────────────────── -->
+<footer>
+  <p>
+    FloVerse &nbsp;·&nbsp; 2026 &nbsp;·&nbsp;
+    <a href="#">Paper</a> &nbsp;·&nbsp;
+    <a href="#">Dataset</a> &nbsp;·&nbsp;
+    <a href="#">Code</a> &nbsp;·&nbsp;
+    <a href="#">Contact</a>
+  </p>
+</footer>
+
+<script>
+  function copyBib() {
+    const raw = `@inproceedings{floverse2026,
+  title     = {FloVerse: Floor Plan-Guided Multi-Modal Navigation},
+  author    = {Weiqi Huang and Shuangyi Dong and Jiaxin Li and Yifei Guo and Zan Wang and Wei Liang},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  year      = {2026}
+}`;
+    navigator.clipboard.writeText(raw).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
