@@ -1,47 +1,20 @@
 # FloVerse: Floor Plan-Guided Multi-Modal Navigation
 
-[Project Page](https://wikiahuang.github.io/floverse/docs/) · [Paper (arXiv)](#) · [Dataset](https://modelscope.cn/datasets/weiqihuang/floverse-1.6k)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://wikiahuang.github.io/floverse/docs/)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-red)](#)
+[![Dataset](https://img.shields.io/badge/Dataset-ModelScope-green)](https://modelscope.cn/datasets/weiqihuang/floverse-1.6k)
 
 Weiqi Huang, Shuangyi Dong, Jiaxin Li, Yifei Guo, Zan Wang, Wei Liang
-CVPR 2026
 
-> **Status:** We are actively refactoring and optimizing the codebase ahead of release. A
-> full, stable release is coming soon — thanks for your patience in the meantime.
+**🚧 Status: We are actively refactoring and optimizing the codebase ahead of release. A full, stable release is coming soon — thanks for your patience in the meantime.**
 
-## Code Structure
+## TODO
 
-- **`floorplan`**: floor plan samples (Gibson / HM3D layouts).
-- **`floorplan_reconstructor`**: scripts to reconstruct floor plans from mesh/point-cloud data.
-- **`datasets`**: organizes the dataset into samples and batches for training.
-- **`model`**: model implementation.
-- **`utils`**: training/eval scripts and helper utilities.
-- **`baseline`**: code for comparison baselines.
-- **`config`**: training configs and dependency list.
-- **`docs`**: project page source (served via GitHub Pages).
-
-## Installation
-
-TODO
-
-## Dataset
-
-The FloVerse dataset is available on ModelScope:
-
-https://modelscope.cn/datasets/weiqihuang/floverse-1.6k
-
-TODO: download/setup instructions.
-
-## Training
-
-TODO
-
-## Testing / Deployment
-
-TODO
-
-## Baselines
-
-TODO
+- [ ] Installation instructions
+- [ ] Dataset download/setup instructions
+- [ ] Training instructions
+- [ ] Testing / deployment instructions
+- [ ] Baseline instructions
 
 ## Citation
 
@@ -55,7 +28,3 @@ If you use FloVerse in your research, please cite our paper:
   year      = {2026}
 }
 ```
-
-## License
-
-This project is released under the [MIT License](LICENSE).
