@@ -14,7 +14,6 @@ Weiqi Huang, Shuangyi Dong, Jiaxin Li, Yifei Guo, Zan Wang, Wei Liang
 - [ ] Dataset download/setup instructions
 - [ ] Training instructions
 - [ ] Testing / deployment instructions
-- [ ] Baseline instructions
 
 ## Citation
 
