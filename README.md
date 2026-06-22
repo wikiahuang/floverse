@@ -1,6 +1,6 @@
 # FloVerse: Floor Plan-Guided Multi-Modal Navigation
 
-[![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://wikiahuang.github.io/floverse/docs/)
+[![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://wikiahuang.github.io/floverse/)
 [![Paper](https://img.shields.io/badge/Paper-arXiv-red)](#)
 [![Dataset](https://img.shields.io/badge/Dataset-ModelScope-green)](https://modelscope.cn/datasets/weiqihuang/floverse-1.6k)
 
