@@ -87,7 +87,7 @@ The full dataset contains:
 - `eval_without_obj` for point-goal evaluation
 - `eval_with_obj` for image-goal and object-goal evaluation
 
-After download, update [`config/floverse.yaml`](/media/data/weiqi_data/code/floverse/config/floverse.yaml) so that `data_folder` points to the training root:
+After download, update `config/floverse.yaml` so that `data_folder` points to the training root:
 
 ```yaml
 data_folder:
@@ -112,7 +112,7 @@ After setup, the project should look like:
 floverse/
 ├── ckpt/                       # released planner / refiner checkpoints
 ├── config/                     # training and evaluation configs
-├── datasets/                   # dataset loader and overlap-scene list
+├── datasets/                   # dataloader
 ├── diffusion_policy/           # external dependency, cloned manually
 ├── eval/                       # point / image / object evaluation scripts
 ├── floorplan/                  # released floorplan assets
@@ -120,6 +120,14 @@ floverse/
 ├── model/                      # planner and refiner
 ├── results/                    # saved evaluation rollouts
 └── utils/                      # training entrypoint and shared helpers
+```
+
+## Checkpoints
+
+You can download our pretrained checkpoints and run evaluation directly:
+
+```bash
+modelscope download --repo-type dataset --local-dir ckpt weiqihuang/floverse-1.6k <CKPT_PATHS>
 ```
 
 ## Training
@@ -141,8 +149,6 @@ Notes:
 ## Evaluation
 
 Evaluation code lives in [`eval/`](/media/data/weiqi_data/code/floverse/eval).
-
-All three navigation scripts support CLI overrides. If you do not pass any CLI flags, they run with the defaults defined inside each script.
 
 ### a. Point-goal evaluation
 
