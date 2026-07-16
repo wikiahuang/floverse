@@ -4,7 +4,7 @@
 [![Paper](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/2606.14267)
 [![Dataset](https://img.shields.io/badge/Dataset-ModelScope-green)](https://modelscope.cn/datasets/weiqihuang/floverse-1.6k)
 
-Weiqi Huang, Shuangyi Dong, Jiaxin Li, Yifei Guo, Zan Wang, Wei Liang
+*Weiqi Huang, Shuangyi Dong, Jiaxin Li, Yifei Guo, Zan Wang, Wei Liang*
 
 FloVerse is a floorplan-guided diffusion policy for point-goal, image-goal, and object-goal navigation.
 
@@ -12,7 +12,7 @@ FloVerse is a floorplan-guided diffusion policy for point-goal, image-goal, and 
 
 ## Setup
 
-### 1. Create the environment
+### a. Create the environment
 
 ```bash
 conda create -n floverse python=3.8 -y
@@ -25,7 +25,7 @@ pip install -r config/requirements.txt
 pip install modelscope
 ```
 
-### 2. Install diffusion_policy
+### b. Install diffusion_policy
 
 `diffusion_policy` is not published on PyPI and must be cloned into the project root:
 
@@ -36,7 +36,7 @@ pip install -e diffusion_policy/
 
 It must live at `floverse/diffusion_policy/` for the import path in [`utils/train.py`](/media/data/weiqi_data/code/floverse/utils/train.py) to resolve correctly.
 
-### 3. Install iGibson
+### c. Install iGibson
 
 FloVerse evaluation depends on a local iGibson checkout under the repository root:
 
@@ -45,7 +45,7 @@ git clone https://github.com/StanfordVL/iGibson.git --recursive
 pip install -e iGibson/
 ```
 
-### 4. Prepare iGibson scene assets
+### d. Prepare iGibson scene assets
 
 Next, prepare the scene data used by iGibson evaluation:
 
@@ -71,7 +71,7 @@ floverse/iGibson/igibson/data/
 └── g_dataset/
 ```
 
-### 5. Prepare FloVerse data
+### e. Prepare FloVerse data
 
 The FloVerse training and evaluation data are hosted on [ModelScope](https://modelscope.cn/datasets/weiqihuang/floverse-1.6k/).
 
@@ -94,7 +94,7 @@ data_folder:
 
 The training root should contain scene folders, and each scene folder should contain `floorplan.png` plus `traj_*` subdirectories.
 
-### 6. Repository layout
+### f. Repository layout
 
 After setup, the project should look like:
 
@@ -117,8 +117,6 @@ floverse/
 
 ## Training
 
-### Train from scratch
-
 Single node, multi-GPU training is launched with `accelerate`:
 
 ```bash
@@ -139,7 +137,7 @@ Evaluation code lives in [`eval/`](/media/data/weiqi_data/code/floverse/eval).
 
 All three navigation scripts support CLI overrides. If you do not pass any CLI flags, they run with the defaults defined inside each script.
 
-### Point-goal evaluation
+### a. Point-goal evaluation
 
 ```bash
 CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.point_goal \
@@ -147,7 +145,7 @@ CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.point_goal \
   --traj_save_dir /path/to/results/point_goal
 ```
 
-### Image-goal evaluation
+### b. Image-goal evaluation
 
 ```bash
 CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.image_goal \
@@ -155,7 +153,7 @@ CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.image_goal \
   --traj_save_dir /path/to/results/image_goal
 ```
 
-### Object-goal evaluation
+### c. Object-goal evaluation
 
 ```bash
 CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.object_goal \
@@ -163,7 +161,7 @@ CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.object_goal \
   --traj_save_dir /path/to/results/object_goal
 ```
 
-### Useful evaluation flags
+### d. Useful evaluation flags
 
 ```text
 --scene_ids SCENE_A SCENE_B ...
@@ -185,7 +183,7 @@ results/
 └── object_goal/
 ```
 
-### Metric computation
+### e. Metric computation
 
 Use [`eval/evaluate.py`](/media/data/weiqi_data/code/floverse/eval/evaluate.py) to compute `SR`, `SPL`, and `SoftSPL` from saved trajectories:
 
