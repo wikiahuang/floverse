@@ -1,12 +1,14 @@
 # FloVerse: Floor Plan-Guided Multi-Modal Navigation
 
 [![Project Page](https://img.shields.io/badge/Project-Page-blue)](https://wikiahuang.github.io/floverse/)
-[![Paper](https://img.shields.io/badge/Paper-arXiv-red)](#)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-red)](https://arxiv.org/abs/2606.14267)
 [![Dataset](https://img.shields.io/badge/Dataset-ModelScope-green)](https://modelscope.cn/datasets/weiqihuang/floverse-1.6k)
 
 Weiqi Huang, Shuangyi Dong, Jiaxin Li, Yifei Guo, Zan Wang, Wei Liang
 
 FloVerse is a floorplan-guided diffusion policy for point-goal, image-goal, and object-goal navigation.
+
+![FloVerse pipeline](https://wikiahuang.github.io/floverse/assets/pipeline.png)
 
 ## Setup
 
