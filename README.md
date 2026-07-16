@@ -59,10 +59,7 @@ Then download the cleaned FloVerse scene dataset from ModelScope and extract it 
 
 ```bash
 cd floverse/iGibson/igibson/data
-modelscope download --repo-type dataset \
-  --local-dir . \
-  weiqihuang/floverse-1.6k \
-  floverse_scene_dataset.tar
+modelscope download --repo-type dataset --local-dir . weiqihuang/floverse-1.6k floverse_scene_dataset.tar
 tar -xf floverse_scene_dataset.tar
 ```
 
@@ -81,15 +78,13 @@ The FloVerse training and evaluation data are hosted on [ModelScope](https://mod
 If you plan to train FloVerse, download the full dataset:
 
 ```bash
-modelscope download --repo-type dataset \
-  --local-dir /path/to/floverse_data \
-  weiqihuang/floverse-1.6k
+modelscope download --repo-type dataset --local-dir /path/to/floverse_data weiqihuang/floverse-1.6k
 ```
 
 The full dataset contains:
 
 - `train_dataset` for training
-- `eval_without_obj/HM3D` for point-goal evaluation
+- `eval_without_obj` for point-goal evaluation
 - `eval_with_obj` for image-goal and object-goal evaluation
 
 After download, update [`config/floverse.yaml`](/media/data/weiqi_data/code/floverse/config/floverse.yaml) so that `data_folder` points to the training root:
@@ -104,10 +99,7 @@ The training root should contain scene folders, and each scene folder should con
 If you only need evaluation, you do not need to download `train_dataset`. Download just the evaluation trajectories:
 
 ```bash
-modelscope download --repo-type dataset \
-  --local-dir /path/to/floverse_eval \
-  --include "eval_without_obj/**" "eval_with_obj/**" \
-  weiqihuang/floverse-1.6k
+modelscope download --repo-type dataset --local-dir /path/to/floverse_eval --include "eval_without_obj/**" "eval_with_obj/**" weiqihuang/floverse-1.6k
 ```
 
 This evaluation-only download is used together with `floverse_scene_dataset.tar` from step d.
@@ -125,9 +117,6 @@ floverse/
 ├── eval/                       # point / image / object evaluation scripts
 ├── floorplan/                  # released floorplan assets
 ├── iGibson/                    # external dependency, cloned manually
-│   └── igibson/data/
-│       ├── assets/
-│       └── g_dataset/
 ├── model/                      # planner and refiner
 ├── results/                    # saved evaluation rollouts
 └── utils/                      # training entrypoint and shared helpers
