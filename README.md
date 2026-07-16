@@ -55,12 +55,15 @@ Download the shared iGibson assets:
 python -m igibson.utils.assets_utils --download_assets
 ```
 
-Then download the cleaned FloVerse `g_dataset` release from ModelScope and extract it into `iGibson/igibson/data/`:
+Then download the cleaned FloVerse scene dataset from ModelScope and extract it into `iGibson/igibson/data/`:
 
 ```bash
 cd floverse/iGibson/igibson/data
-wget <MODELSCOPE_G_DATASET_URL> -O floverse_g_dataset_clean.tar
-tar -xf floverse_g_dataset_clean.tar
+modelscope download --repo-type dataset \
+  --local-dir . \
+  weiqihuang/floverse-1.6k \
+  floverse_scene_dataset.tar
+tar -xf floverse_scene_dataset.tar
 ```
 
 After extraction, the directory layout should be:
@@ -75,11 +78,15 @@ floverse/iGibson/igibson/data/
 
 The FloVerse training and evaluation data are hosted on [ModelScope](https://modelscope.cn/datasets/weiqihuang/floverse-1.6k/).
 
+If you plan to train FloVerse, download the full dataset:
+
 ```bash
-modelscope download --dataset weiqihuang/floverse-1.6k
+modelscope download --repo-type dataset \
+  --local-dir /path/to/floverse_data \
+  weiqihuang/floverse-1.6k
 ```
 
-The downloaded dataset contains:
+The full dataset contains:
 
 - `train_dataset` for training
 - `eval_without_obj/HM3D` for point-goal evaluation
@@ -89,10 +96,21 @@ After download, update [`config/floverse.yaml`](/media/data/weiqi_data/code/flov
 
 ```yaml
 data_folder:
-  - /path/to/floverse/train_dataset
+  - /path/to/floverse_data/train_dataset
 ```
 
 The training root should contain scene folders, and each scene folder should contain `floorplan.png` plus `traj_*` subdirectories.
+
+If you only need evaluation, you do not need to download `train_dataset`. Download just the evaluation trajectories:
+
+```bash
+modelscope download --repo-type dataset \
+  --local-dir /path/to/floverse_eval \
+  --include "eval_without_obj/**" "eval_with_obj/**" \
+  weiqihuang/floverse-1.6k
+```
+
+This evaluation-only download is used together with `floverse_scene_dataset.tar` from step d.
 
 ### f. Repository layout
 
