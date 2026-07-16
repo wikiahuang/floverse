@@ -1,0 +1,55 @@
+# Dataset paths. Point each entry to a root directory that contains scene folders,
+# and each scene folder should contain `floorplan.png` plus `traj_*` subdirectories.
+data_folder:
+  - /path/to/floverse/train_dataset
+
+len_traj_pred: 16
+history_length: 8
+traj_pace: 4
+
+# Training.
+batch_size: 16
+num_workers: 6
+learning_rate: 1e-4
+epochs: 10
+eval_per_batches: 100
+save_pre_batches: 500
+refiner_start_epoch: 5
+
+# Goal sampling during planner training.
+img_goal_train_prob: 0.42857142857142855
+point_goal_train_prob: 0.14285714285714285
+object_goal_train_prob: 0.42857142857142855
+
+# Planner / refiner model.
+point_feature_dim: 32
+context_dim: 512
+refiner_condition_dim: 256
+goal_dim: 256
+clip_feature_dim: 512
+condition_dim: 256
+mha_num_attention_heads: 8
+mha_ff_dim_factor: 4
+mha_num_attention_layers: 8
+num_diffusion_steps: 10
+down_dims: [64, 128, 256]
+cond_predict_scale: false
+
+# Local occupancy-map construction for the refiner.
+occupancy_height: 40
+occupancy_width: 50
+grid_size: 0.1
+camera_intrinsics:
+  camera_fx: 128
+  camera_fy: 128
+  camera_cx: 128
+  camera_cy: 128
+floor_percentile: 0.90
+floor_tolerance: 0.1
+occupancy_max_range: 4.0
+near_blindspot_extra_fov_deg: 15.0
+
+# Refiner losses.
+anchor_loss_weight: 1.0
+obstacle_loss_weight: 1.0
+similarity_loss_weight: 3.0
