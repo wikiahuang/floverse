@@ -34,7 +34,7 @@ git clone https://github.com/real-stanford/diffusion_policy.git
 pip install -e diffusion_policy/
 ```
 
-It must live at `floverse/diffusion_policy/` for the import path in [`utils/train.py`](/media/data/weiqi_data/code/floverse/utils/train.py) to resolve correctly.
+It must live at `floverse/diffusion_policy/` for the import path in [`utils/train.py`](utils/train.py) to resolve correctly.
 
 ### c. Install iGibson
 
@@ -83,7 +83,8 @@ modelscope download --repo-type dataset --local-dir /path/to/floverse_data weiqi
 
 The full dataset contains:
 
-- `train_dataset` for training
+- `train_without_obj` for point-goal training
+- `train_with_obj` for image-goal and object-goal training
 - `eval_without_obj` for point-goal evaluation
 - `eval_with_obj` for image-goal and object-goal evaluation
 
@@ -91,12 +92,13 @@ After download, update `config/floverse.yaml` so that `data_folder` points to th
 
 ```yaml
 data_folder:
-  - /path/to/floverse_data/train_dataset
+  - /path/to/floverse_data/train_without_obj
+  - /path/to/floverse_data/train_with_obj
 ```
 
-The training root should contain scene folders, and each scene folder should contain `floorplan.png` plus `traj_*` subdirectories.
+Each training scene directory should contain `floorplan.png` and `traj_*` subdirectories.
 
-If you only need evaluation, you do not need to download `train_dataset`. Download just the evaluation trajectories:
+If you only need evaluation, download only the evaluation trajectories:
 
 ```bash
 modelscope download --repo-type dataset --local-dir /path/to/floverse_eval --include "eval_without_obj/**" "eval_with_obj/**" weiqihuang/floverse-1.6k
@@ -124,21 +126,18 @@ floverse/
 
 ## Checkpoints
 
-You can download our pretrained checkpoints and run evaluation directly:
+You can download our pretrained `planner` and `refiner` checkpoints from ModelScope and run evaluation directly:
 
 ```bash
-modelscope download --repo-type dataset --local-dir ckpt weiqihuang/floverse-1.6k <CKPT_PATHS>
+modelscope download --repo-type dataset --local-dir ckpt --include "planner.pth" "refiner.pth" weiqihuang/floverse-1.6k
 ```
 
 ## Training
 
-Single node, multi-GPU training is launched with `accelerate`:
+Launch multi-GPU training with `accelerate`:
 
 ```bash
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch --multi_gpu --num_processes 8 \
-  utils/train.py \
-  --config config/floverse.yaml \
-  --run_name floverse_train
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 accelerate launch --multi_gpu --num_processes 8 utils/train.py --config config/floverse.yaml --run_name floverse_train
 ```
 
 Notes:
@@ -148,30 +147,24 @@ Notes:
 
 ## Evaluation
 
-Evaluation code lives in [`eval/`](/media/data/weiqi_data/code/floverse/eval).
+Evaluation code lives in [`eval/`](eval/).
 
 ### a. Point-goal evaluation
 
 ```bash
-CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.point_goal \
-  --scenes_dir /path/to/eval_without_obj/HM3D \
-  --traj_save_dir /path/to/results/point_goal
+CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.point_goal --scenes_dir /path/to/eval_without_obj/HM3D --traj_save_dir /path/to/results/point_goal
 ```
 
 ### b. Image-goal evaluation
 
 ```bash
-CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.image_goal \
-  --scenes_dir /path/to/eval_with_obj \
-  --traj_save_dir /path/to/results/image_goal
+CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.image_goal --scenes_dir /path/to/eval_with_obj --traj_save_dir /path/to/results/image_goal
 ```
 
 ### c. Object-goal evaluation
 
 ```bash
-CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.object_goal \
-  --scenes_dir /path/to/eval_with_obj \
-  --traj_save_dir /path/to/results/object_goal
+CUDA_VISIBLE_DEVICES=0,1 python -u -m eval.object_goal --scenes_dir /path/to/eval_with_obj --traj_save_dir /path/to/results/object_goal
 ```
 
 ### d. Useful evaluation flags
@@ -198,12 +191,10 @@ results/
 
 ### e. Metric computation
 
-Use [`eval/evaluate.py`](/media/data/weiqi_data/code/floverse/eval/evaluate.py) to compute `SR`, `SPL`, and `SoftSPL` from saved trajectories:
+Use [`eval/evaluate.py`](eval/evaluate.py) to compute `SR`, `SPL`, and `SoftSPL` from saved trajectories:
 
 ```bash
-python -u -m eval.evaluate \
-  --traj_dir /path/to/results/image_goal \
-  --shortest_traj_dir /path/to/eval_with_obj
+python -u -m eval.evaluate --traj_dir /path/to/results/image_goal --shortest_traj_dir /path/to/eval_with_obj
 ```
 
 Optional metric flags:
